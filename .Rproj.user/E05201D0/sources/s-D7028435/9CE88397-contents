@@ -1,0 +1,91 @@
+---
+title: "Computación Estadística con R \\newline Clase 1"
+subtitle: "Departamento de Estadística PUC"
+author: "Rubén Soza"
+date: "29 de julio de 2019"
+output: 
+  ioslides_presentation:
+    css: shiny-slides.css
+    logo: images/shiny-logo.png
+    self_contained: no
+    incremental: true
+---
+
+## Programa
+
+- Introducción a R: Instalación, Interfaz y Operatoria básica.
+
+- Manipulación de bases de datos en R.
+
+- Análisis exploratorio y descriptivo en R: Estadísticas de Resumen y Visualización. 
+
+- Análisis estadístico en R: Pruebas de hipótesis, regresión y clasificación.
+
+## Clases
+
+- Cada clase consistirá de un 25% de exposición y un 90% de ejercitación.
+- **Todos** escribiremos código. *Hechando a prender se aprende!*
+- Todo el material estará en la página de [Educación Continua](www.educacioncontinua.uc.cl).
+
+# Instalación de R y Rstudio
+
+## Descarga e instalación
+
+- R, el software computacional, se descarga de \color{blue}{\url{cran.r-project.org}} \pause
+\color{black} Debes elegir la opción que corresponda con tu sistema operativo.
+- Rstudio, el panel de control, se descarga de \color{blue}\url{www.rstudio.com} \color{black} Elegir la primera opción, "RStudio Desktop Open Source License". \pause
+- Instalar ambos programas de la forma usual. \pause
+- Además existe una versión online: \color{blue}\url{rstudio.cloud}\color{black}.
+
+## Interfaz Básica de RStudio
+
+\includegraphics[scale = 0.2]{rstudio.png}
+\begin{center}
+\color{blue}
+\url{http://edild.github.io/qetxrbook/rintro/rstudio.html}
+\color{red}
+\end{center}
+
+# Primeras Interacciones con R
+
+## R como calculadora aritmética
+
+En R se pueden realizar todas las operaciones aritméticas (+,-,*,/,\textsf{sqrt,exp,log},\^), las cuales retornan un resultado numérico.
+
+```{r}
+sqrt(2^4 + exp(3)/55 - log(5*8-2)) 
+```
+
+\textbf{Nota:} Para correr código desde el editor, utilizar \textsf{ctrl + enter}.
+
+## R como calculadora lógica
+
+Además, se pueden realizar operaciones lógicas(&,\|), las cuales retornan como resultado TRUE o FALSE:
+
+```{r}
+38 >= 15
+3 < 5 & 6 < 5
+3 < 5 | 6 < 5 
+```
+
+## Objetos básicos de R
+En R podemos guardar objetos utilizando las asignación '<-' o, en su defecto, '='.
+
+```{r}
+a <- 20
+b = 3
+```
+Para visualizar un objeto en consola, basta con escribir su nombre en ella.
+```{r}
+a + b
+```
+
+## Objetos básicos de R: Vectores
+
+Para crear un vector se ocupa la función \textsf{c()}.
+```{r}
+x <- c(5,3,7,8,10,20,pi,a)
+x
+mean(x)
+plot(x)
+```

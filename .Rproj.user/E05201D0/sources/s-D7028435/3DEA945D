@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1565108317205.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "3DEA945D",
+    "lastKnownWriteTime" : 1559848647,
+    "last_content_update" : 1559848647,
+    "path" : "C:/Users/ruben/Downloads/slides-gh-pages/201709-intro-aed-stats-2/index.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "chunk_output_type" : "console"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

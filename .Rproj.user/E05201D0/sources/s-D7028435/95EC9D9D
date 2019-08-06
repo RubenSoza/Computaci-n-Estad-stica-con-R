@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1565108352919.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1642791774",
+    "id" : "95EC9D9D",
+    "lastKnownWriteTime" : 1559848647,
+    "last_content_update" : 1559848647,
+    "path" : "C:/Users/ruben/Downloads/slides-gh-pages/201709-intro-aed-stats-2/R/setup.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

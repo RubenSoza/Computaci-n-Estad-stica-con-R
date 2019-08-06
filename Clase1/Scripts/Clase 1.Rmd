@@ -1,0 +1,362 @@
+---
+title: false
+author: false
+output:
+  revealjs::revealjs_presentation:
+    lib_dir: static
+    self_contained: false
+    reveal_plugins: ["zoom"]
+    mathjax: null
+    transition: slide
+    css: styles.css
+    incremental: true
+    center: false
+    theme: simple
+    fig_width: 6
+    fig_height: 3.5
+    reveal_options:
+      slideNumber: false
+      controls: false
+      mouseWheel: false
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup, include=FALSE}
+library(highcharter)
+file.remove(dir("wdgts/", full.names = TRUE))
+
+knitr::opts_chunk$set(fig.path = "static/img/", echo = TRUE, cache = TRUE)
+
+options(highcharter.theme =
+          hc_theme_smpl(chart = list(
+            backgroundColor = "transparent",
+            style = list(fontFamily = "Source Sans Pro"))
+            ))
+```
+# <br><br>Computación Estadística con R<br><small>Clase 1 <br><br> Rubén Soza</small>{ .center .white data-background="#75AADB" }
+
+## Programa del Curso
+
+- Introducción a R: Instalación, Interfaz y Operatoria básica.
+- Manipulación de bases de datos en R.
+- Análisis exploratorio y descriptivo en R: Estadísticas de Resumen y Visualización. 
+- Análisis estadístico en R: Pruebas de hipótesis, regresión y clasificación.
+- Creación de reportes utilizando Rmarkdown.
+- Otros.
+
+## Clases
+
+- Cada clase consistirá de un 25% de exposición y un 90% de ejercitación.
+- **Todos** escribiremos código. *Hechando a prender se aprende!*
+- Todo el material estará en la página de [Educación Continua](http://www.educacioncontinua.uc.cl).
+
+# Introducción a R{ .center .white data-background="#75AADB" }
+
+## Preguntas Frequentes
+
+> <small> The best thing about R is that it was developed by statisticians. The worst thing about R is that ... it was developed by statisticians. </small>
+
+- Un software *libre* para computación estadística y gráficos con cerca de 30 años.
+- ¿Por qué? Un software *libre* para computación estadística y gráficos.
+- ¿Lo bueno? Un lenguaje simple. Miles de *paquetes* desarrollados por la comunidad. Además es útil para el desarrollo de la academia.
+- ¿Lo meh? No es lo más rápido. No posee la mejor [escalabilidad](http://es.wikipedia.org/wiki/Escalabilidad).
+- ¿A qué se parece? A otros lenguajes de programación como **python**.
+
+## Descarga e Instalación
+
+- R, el software computacional, se descarga desde el [CRAN](http://cran.r-project.org). Debes elegir la opción que corresponda con tu sistema operativo.
+- Rstudio, el panel de control, se descarga desde [Rstudio](http://www.rstudio.com). Elegir la primera opción, "RStudio Desktop Open Source License". 
+- Instalar ambos programas de la forma usual.
+- Además existe una versión online, [Rstudio Cloud](http://rstudio.cloud)
+
+## Interfaz básica de RStudio
+
+![http://edild.github.io/qetxrbook/rintro/rstudio.html](rstudio.png)
+
+# Primeras Interacciones con R{ .center .white data-background="#75AADB" }
+
+## R como calculadora aritmética
+
+En R se pueden realizar todas las operaciones aritméticas:
+
+```{r}
+sqrt(2^4 + exp(3)/55 - log(5*8-2)) 
+```
+
+**Nota:** Para correr código desde el editor, utilizar *ctrl + enter*.
+
+## R como calculadora lógica
+
+Además, se pueden realizar operaciones lógicas(&,\|), las cuales retornan como resultado TRUE o FALSE:
+
+```{r}
+38 >= 15
+3 < 5 & 6 < 5
+3 < 5 | 6 < 5 
+```
+
+## Objetos básicos de R
+
+En R podemos guardar objetos utilizando las asignación '\<-' o, en su defecto, '='.
+
+```{r}
+a <- 20 # Valor numérico
+b = 3^2
+c <- "Hola Mundo" # String o carácter.
+```
+
+Para visualizar un objeto en consola, basta con escribir su nombre en ella, o bien ejecutar la línea deseada desde el editor.
+```{r}
+a + b
+```
+
+## Objetos básicos de R: Vectores
+
+Para crear un vector se ocupa la función **c()**. Además podemos crear secuencias con la función **seq()**.
+```{r}
+x <- c(5,b,7,8,-8,20,7,a)
+y <- seq(1,10)
+mean(x)
+sum(y)
+```
+
+## Objetos básicos de R: Vectores
+Podemos acceder a un elemento de un vector en una posición específica de un vector utilizando '[]'. Algunos ejemplos:
+
+```{r}
+x[3] # Elemento en la posición 3
+x[2:4] # Elementos en las posiciones 2 y 4 inclusive
+``` 
+
+## Objetos básicos de R: Vectores
+
+```{r}
+x[c(5,8)] # Elementos en la posición 5 y 8 
+x[-4] # Vector original sin el elemento en la posición 4
+```
+
+## Objetos básicos de R: Paquetes
+
+Los paquetes de R son el eje central de su funcionamiento. En cada uno de ellos existen funciones desarrolladas para resolver diferentes tipos de problemáticas. En esta ocasión instalaremos y cargaremos el paquete 'Tidyverse':
+![](tidyverse.png)
+
+## Objetos básicos de R: Paquetes
+
+Para utilizar un paquete en R hay que realizar las siguientes operaciones:
+
+- Instalar el paquete, **install.packages('nombre_paquete').** 
+- Cargar el paquete,  **library('nombre_paquete')**.
+
+```{r, message = FALSE}
+# install.packages('tidyverse')
+library(tidyverse)
+```
+
+## Operador %>% 
+
+Permite realizar composición de funciones. Un ejemplo de su utilización es:
+
+```{r}
+x %>% mean() %>% log()
+log(mean(x))
+```
+
+# Ejemplo en RStudio{ .center .white data-background="#75AADB" }
+
+## Actividad 1
+
+- Genere un vector con los primeros 1000 números impares.
+- Del vector anterior, obtenga los impares número 1, 10, 100 y 1000.
+- Cálcule la suma de la raíz de los números generados antes utilizando 2 métodos diferentes.
+
+# Importación de Base de Datos{ .center .white data-background="#75AADB" }
+
+## Orígen de la BD
+
+Los datos pueden provenir de muchas fuentes:
+
+- Archivos de texto(txt ó csv)
+- Excel(xlsx)
+- SPSS(sav)
+- SQL(sql)
+- STATA(dta)
+- Una página web.
+- etc.
+
+## Funciones para Importar
+
+Cada fuente tiene su función de importación en tidyverse.
+
+- Si es csv: **read.csv**.
+- Si es texto: **read_delim**.
+- Si es excel: **read_excel**.
+- Si es spss: **read_sav**.
+
+Para más información, pueden entrar al siguiente [torpedo](https://github.com/rstudio/cheatsheets/raw/master/translations/spanish/d
+import-cheatsheet_Spanish.pdf).
+
+## Ejemplo: storms.csv
+
+La base de datos storms se encuentra en el siguiente [link](https://raw.githubusercontent.com/rstudio/EDAWR/master/data-raw/storms.csv).
+
+```{r}
+url  <- 'https://raw.githubusercontent.com/rstudio/EDAWR/master/data-raw/storms.csv'
+download.file(url, "storms.csv", mode = "wb")
+
+library(readr)
+storms <- read.csv('storms.csv', header = T)
+storms
+```
+
+## Ejemplo: storms.csv
+
+El comando **glimpse()** nos otorga características de las columnas(variables) de la BD.
+```{r}
+glimpse(storms)
+```
+
+## Ejemplo: numeros.xlsx
+
+```{r}
+library(readxl)
+numeros <- read_excel('data/numeros.xlsx')
+numeros
+```
+
+# Veamos ahora un ejemplo en RStudio{ .center .white data-background="#75AADB" }
+
+## Actividad 2
+
+Dirijase a [http://datos.gob.cl](http://datos.gob.cl) y descargue dos bases de datos en diferentes formatos. Lea dichas BD en R y obtenga las características de sus variables.
+
+# Manejo de bases de datos utilizando funciones de dplyr{ .center .white data-background="#75AADB" }
+
+## filter(): *Seleccionar filas*
+
+Permite seleccionar filas de cierta BD utilizando un criterio particular.
+
+![](filter.PNG)
+
+## filter(): *Código*
+
+```{r}
+filter(storms, storm %in% c("Alberto", "Ana"))
+
+storms %>%
+  filter(storm %in% c("Alberto", "Ana"))
+```
+
+## select(): *Seleccionar Columnas*
+
+Permite seleccionar columnas de una base de datos en específico.
+
+![](select.PNG)
+
+## select() : *Código*
+
+```{r}
+select(storms, storm, pressure)
+storms %>%
+  select(storm, pressure)
+```
+
+## select(): *Código alternativo*
+
+```{r}
+storms %>%
+  select(-wind, -date)
+
+```
+
+## arrange(): *Ordenar filas*
+
+Permite ordenar de menor a mayor una BD teniendo en consideración una o más variables.
+
+![](arrange.PNG)
+
+## arrange(): *Código*
+
+```{r}
+arrange(storms, wind)
+storms %>%
+  arrange(wind)
+```
+
+## arrange(): *Código de mayor a menor.*
+
+```{r}
+storms %>%
+  arrange(desc(wind))
+```
+
+## mutate(): *Crear/Modificar Columnas*
+
+Permite crear o modificar una columna de la BD.
+
+![](mutate.PNG)
+
+## mutate(): *Código*
+
+```{r}
+storms %>%
+  mutate(ratio = pressure/wind, inverse = 1/ratio)
+```
+
+## summarise(): *Resumir Columnas*
+
+Permite aplicar funciones de resumen en las columnas de una BD.
+
+![](summarize.PNG)
+
+## summarise(): *Código*
+```{r}
+storms %>% 
+  summarise(mean = mean(wind), sd = sd(wind))
+```
+
+## Ejemplo en RStudio: storms.csv{ .center .white data-background="#75AADB" }
+
+- Seleccione las observaciones que tienen pressure mayor o igual a 1010 y wind menor a 50. Encuentre el promedio y la desviación estándar de wind en la BD resultante.
+- Divida por 1000 la variable pressure.
+- Quite la variable pressure y ordene de mayor a menor según fecha la base de datos resultante.
+
+
+## group_by + summarise: *Resumir Columnas por Grupos*
+
+Group_by divide la base de datos en grupos, lo cual permite obtener medidas de resumen por grupos utilizando summarise.
+
+![](gby.PNG)
+
+## group_by + summarise: *Código*
+
+```{r, cache = FALSE}
+pollution <- read.csv("https://raw.githubusercontent.com/rstudio/EDAWR/master/data-raw/pollution.csv")
+```
+
+```{r}
+pollution %>%
+  group_by(city) %>%
+  summarise(promedio = median(amount),
+            suma = sum(amount),
+            n = n(),
+            max = max(amount))
+```
+
+## Ejemplo en RStudio: numeros.xlsx{ .center .white data-background="#75AADB" }
+
+Encuentre el máximo y mínimo por región de la variable valor.
+
+## Actividad 3
+
+Teniendo en consideración la BD encuesta.xlsx:
+
+- Seleccione Región, Sexo, Edad, cuánto gastó en seguridad y Score Socioeconómico.
+- Seleccione hombres de Valparaíso.
+- Ordene de menor a mayor la edad.
+- Añada una nueva variable denominada PRSC, calculada como el Score del individuo dividido por el máximo del score observado.
+- Obtenga el promedio del PRSC para cada grupo de gasto en seguridad.
+
+
+# Manipulación de BD parte 2{ .center .white data-background="#75AADB" }

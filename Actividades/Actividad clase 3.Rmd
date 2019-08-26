@@ -1,0 +1,172 @@
+---
+header-includes: 
+  - \usepackage{booktabs}
+  - \AtBeginDocument{\let\maketitle\relax}
+  - \usepackage[utf8]{inputenc}
+  - \usepackage[english]{babel}
+  - \usepackage{float}
+output:
+  pdf_document
+fontsize: 12pt 
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE, 
+  message = FALSE,
+  digits  = 4
+)
+library(tidyverse)
+```
+
+\newcommand{\iid}{\overset{\mathrm{i.i.d}}{\sim}}
+\newcommand{\dados}{\ | \ }
+\newcommand{\bbeta}{\boldsymbol\beta}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\props}{\ \propto \ }
+\renewcommand{\labelitemi}{$\bullet$}
+\newtheorem{proof}{Solución}
+
+\begin{minipage}{2.5cm}
+			\includegraphics[width=1.8cm]{logouccolor.jpg}
+		\end{minipage}
+\begin{minipage}{13cm}
+	\begin{flushleft}
+   		\raggedright{
+   		  \noindent
+   		 	 {\sc Pontificia Universidad Católica de Chile \\ 
+   			     			Facultad de Matemáticas \\ 
+   			     			Departamento de Estad\'istica \sc
+   			     			}
+    			    	}
+			\end{flushleft}
+		\end{minipage}
+
+\begin{center} \quad \\[0.3cm]
+  {\Large Actividad Práctica I} \\[0.3cm]
+  Rubén Soza \\
+  Computación Estadística con R \\[0.3cm]
+  22 de Agosto de 2019
+\end{center}
+
+## Instrucciones
+
+Instale los siguientes paquetes: `babynames`, `nycflights13`, `maps` y carguelos (con `library`) junto a `tidyverse`. Resuelva las siguientes preguntas:
+
+## Pregunta 1
+
+Considere la tabla `births` paquete `babynames`. 
+
+(a) ¿Cuántas columnas y filas posee esta tabla?
+
+(b) Utilizando un gráfico adecuado, estudie los nacimientos por años en EE.UU. ¿En qué década se obtuvo la menor cantidad de nacimientos?
+
+```{r, echo = FALSE, include = FALSE}
+library(babynames)
+library(nycflights13)
+library(maps)
+
+data("births")
+
+# Pregunta 1 #
+glimpse(births)
+
+# Pregunta 2 #
+ggplot(data = births) +
+  geom_line(aes(x = year, y = births, col = "darkblue")) + theme(plot.subtitle = element_text(vjust = 1), 
+    plot.caption = element_text(vjust = 1), 
+    axis.line = element_line(linetype = "solid"), 
+    panel.grid.major = element_line(linetype = "blank"), 
+    axis.text = element_text(size = 12), 
+    axis.text.x = element_text(size = 12), 
+    panel.background = element_rect(fill = NA, 
+        linetype = "solid"), legend.key = element_rect(fill = "white"), 
+    legend.background = element_rect(fill = NA, 
+        linetype = "solid"))
+
+births %>%
+  filter(year >= 1910) %>% 
+  mutate(decade = floor(year/10)*10) %>% 
+  group_by(decade) %>% 
+  summarise(nacimientos = sum(births)) %>%
+  filter(nacimientos == min(nacimientos))
+  
+```
+
+## Pregunta 2
+
+Considere ahora la tabla `babynames` del paquete `babynames`. 
+
+(a) Realice el proceso necesario para obtener la misma estructura en cuanto a **columnas** que la tabla `births`, esto es, generar una nueva tabla que nos entregue el número de nacimientos por año.
+
+(b) Genere un data frame partiendo de la tabla `babynames` que contenga los nacimientos de las personas de género femenino con el nombre **Nala, Ariel** y **Elsa** desde los años 1980.
+
+(c) Con el data frame obtenido en la parte anterior, genere un gráfico que contenga la información de los nacimientos por año de cada uno de los nombres mencionados y mencionte una hipótesis/suposición al respecto de lo observado. *Hint:* Use `face_wrap(~ name, scales = "free_y")`.
+
+```{r, echo = FALSE, include = FALSE}
+# Parte a #
+data("babynames")
+babynames %>% 
+  group_by(year) %>% 
+  summarise(births = n() ) -> births2
+
+# Parte b #
+babynames %>%
+  filter(sex == "F", year >= 1980, name %in% c("Nala","Ariel","Elsa")) %>% 
+  arrange(name) -> births3
+
+# Parte c #
+ggplot(data = births3) + 
+  geom_line(aes(x = year, y = n)) +
+  facet_wrap( ~ name, ncol = 3, nrow = 1, scales = "free_y")
+
+```
+
+
+## Pregunta 3
+
+(a) Utilizando las tablas `airports` y `flights` del paquete `nycflights13` obtenga una tabla que contenga conteos de vuelos según su destino `dest` además de la longitud y latitud del aeropuerto(de destino).
+
+(b) Apoyándose del siguiente gráfico:
+
+    ```{r}
+library(maps)
+us <- map_data("state")
+
+ggmap <- ggplot() +
+  geom_polygon(data = us, aes(long, lat, group = group), alpha = 0.25) +
+  coord_fixed() # esto es para mantener la razón 1:1
+
+ggmap
+    ```
+    
+    1. Agregue una capa de puntos ubicando los aeropuertos obtenidos de la pregunta anterior y usando además: `aes(size = la_cantidad_de_vuelos_a_dicho_aeropuerto)`.
+
+    2. A la izquierda del gráfico anterior se observan 2 puntos. Genere el/los pasos necesarios para seleccionarlos usando la tabla resultante de la pregunta 5 para identificar los nombres de dichos aeropuertos y responda: ¿Donde están? ¿Qué gracias tienen?
+
+
+```{r, echo = FALSE, include = FALSE}
+library(nycflights13)
+data("airports", package = 'nycflights13')
+data("flights", package = 'nycflights13')
+glimpse(airports)
+
+# a)
+airports %>% 
+  inner_join(flights, by = c("faa" = "dest")) %>% 
+  group_by(name) %>% 
+  summarise(nvuelos = n()) %>% 
+  left_join(airports, by = "name") %>% 
+  select(name,lat,lon,nvuelos) -> airports2
+
+# b)
+ggmap <- ggplot() +
+  geom_polygon(data = us, aes(long, lat, group = group), alpha = 0.25) + 
+  coord_fixed()
+
+ggmap + geom_point(data = airports2, aes(x = lon, y = lat, size = nvuelos, color = "darkblue"), alpha = 0.7)
+
+# c)
+airports2 %>% 
+  filter(lon < -130)
+```
+

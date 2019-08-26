@@ -1,0 +1,400 @@
+---
+fontsize: 12pt
+header-includes:
+- \usepackage{booktabs}
+- \AtBeginDocument{\let\maketitle\relax}
+- \usepackage[utf8]{inputenc}
+- \usepackage[english]{babel}
+- \usepackage{float}
+- \usepackage{mathtools}
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE, 
+  message = FALSE,
+  digits  = 4
+)
+library(tidyverse)
+library(kableExtra)
+```
+
+\newcommand{\iid}{\overset{\mathrm{i.i.d}}{\sim}}
+\newcommand{\dados}{\ | \ }
+\newcommand{\bbeta}{\boldsymbol\beta}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\props}{\ \propto \ }
+\renewcommand{\labelitemi}{$\bullet$}
+\newtheorem{proof}{Solución}
+\newcommand{\var}{\text{Var}}
+\newcommand{\cov}{\text{Cov}}
+
+\begin{minipage}{2.5cm}
+			\includegraphics[width=1.8cm]{Images/logouccolor.jpg}
+		\end{minipage}
+\begin{minipage}{13cm}
+	\begin{flushleft}
+   		\raggedright{
+   		  \noindent
+   		 	 {\sc Pontificia Universidad Católica de Chile \\ 
+   			     			Facultad de Matemáticas \\ 
+   			     			Departamento de Estad\'istica \sc
+   			     			}
+    			    	}
+			\end{flushleft}
+		\end{minipage}
+
+\begin{center} \quad \\[0.3cm]
+  {\Large Homework I} \\[0.3cm]
+  Rubén Soza \\
+  Seminario de Estadística IV - EPG3344 \\[0.3cm]
+  29 de Agosto de 2019
+\end{center}
+
+# Problems 
+
+## Problem 1
+
+Prove the following results for a SI sampling design of size $n$ from a population of size $N$:
+
+(a) $\hat{t}_{\pi} = N\bar{y}_s = \frac{1}{f} \sum_s y_k$, where $f = \frac{n}{N}$ is the sampling fraction.
+
+(b) $V_{SI}(\hat{t}_{\pi}) = N^2\left(\frac{1}{n} - \frac{1}{N}\right)S^2_{yU} = N^2\left(\frac{1-f}{n}\right)S^2_{yU}.$
+
+(c) An unbiased estimator of $V_{SI}(\hat{t}_{\pi})$ is $\widehat{V}_{SI}(\hat{t}_{\pi}) = N^2\left(\frac{1-f}{n}\right)S^2_{ys},$
+
+where $S^2_{yU} = \frac{1}{N-1}\sum_U (y_k - \bar{y}_U)^2, S^2_{ys} = \frac{1}{n-1}\sum_s(y_k - \bar{y}_s)^2, \bar{y}_U = \sum_U \frac{y_k}{N}$ y $\bar{y}_s = \sum_s \frac{y_k}{n}$.
+
+### Solution
+
+First, recall that in a SI sampling design of size $n$ from a population of size $N$, the first and second order inclusion probabilities are \begin{align}
+\pi_k = \frac{n}{N}, \quad \pi_{kl} = \frac{n(n-1)}{N(N-1)}. \end{align} Then:
+
+(a) The $\pi$-estimator is defined by $$\hat{t}_{\pi} = \sum_{s \ni k} \check{y}_k $$ where $\check{y}_k = \frac{y_k}{\pi_k}$. Then, by $(1)$ we have that $f = \pi_k$ and $$\begin{aligned}
+\hat{t}_{\pi} &= \sum_{s \ni k} \frac{y_k}{\pi_k} = N\sum_{s \ni k} \frac{y_k}{n} = \frac{1}{f}\sum_{s \ni k} y_k = N\bar{y}_s.
+\end{aligned}$$
+
+(b) First, by (i) we have $$\begin{aligned}
+\Delta_{kl} = \pi_{kl} - \pi_k\pi_l &= f\frac{n-1}{N-1} - f^2 = f\left[\frac{n - 1 - Nf + f}{N-1}\right] = -f\left(\frac{1-f}{N-1}\right)
+\end{aligned}$$
+Then using Lemma 2 part (ii) $$\begin{aligned} V_{SI}(\hat{t}_{\pi}) &= -\frac{1}{2}\mathop{\sum\sum}_{(k,l) \in U} \Delta_{kl}(\check{y}_k - \check{y}_l)^2 \\
+                      &= \frac{1}{2}f\left(\frac{1-f}{N-1}\right)\frac{1}{f^2} \mathop{\sum\sum}_{(k,l) \in U} ((y_k - \bar{y}_U) + (\bar{y}_U - y_l))^2 \\
+                      &= \frac{1}{2}\left(\frac{1-f}{f(N-1)}\right) \mathop{\sum\sum}_{(k,l) \in U} \left[(y_k - \bar{y}_U)^2 + (y_l - \bar{y}_U)^2 + 2(y_k - \bar{y}_U)(y_l - \bar{y}_U)\right]
+\end{aligned}$$
+Now notice that 
+$$\begin{aligned}
+  \mathop{\sum\sum}_{(k,l) \in U} (y_k - \bar{y}_U)(y_l - \bar{y}_U) &= \sum_{k \in U}(y_k - \bar{y}_U)\sum_{l \in U}(y_l - \bar{y}_U) \\
+  &= \sum_{k \in U}(y_k - \bar{y}_U)\left[\sum_{l \in U} y_l - \sum_{l \in U} \bar{y}_U\right] \\
+  &= \sum_{k \in U}(y_k - \bar{y}_U)\left[\sum_{l \in U} y_l - \sum_{l \in U} y_l\right] \\
+  &= 0
+\end{aligned}$$
+Follows that $$\begin{aligned} \vspace{-10ex} V_{SI}(\hat{t}_{\pi}) &= \frac{1}{2}\left(\frac{1-f}{f(N-1)}\right) \mathop{\sum\sum}_{(k,l) \in U} \left[(y_k - \bar{y}_s)^2 + (y_l - \bar{y}_U)^2\right] \\
+                        &= \frac{1}{2}\left(\frac{1-f}{f(N-1)}\right)\left[N\sum_{k \in U} (y_k - \bar{y}_U)^2 + N \sum_{l \in U} (y_l - \bar{y}_U)^2 \right] \\
+                        &= \frac{1}{2}\left(\frac{1-f}{f(N-1)}\right)2N\sum_{k\in U} (y_k - \bar{y}_U)^2 \\
+                        &= \left(\frac{1-f}{f(N-1)}\right)N\left[\frac{1}{N-1}\sum_{k \in U}(y_k - \bar{y}_U)^2\right] \\
+                        &= N^2\frac{1-f}{n}S_{yU}^2
+\end{aligned}$$ which prove requested equality.
+  
+(c) Given that $\pi_{kl} > 0$ for all $k,l \in U$, Lemma 2 part (iii) states that $$\widehat{\var}(\hat{t}_{\pi}) = -\frac{1}{2}\sum_{(k,l) \in U} \check{\Delta}_{kl}(\check{y}_k - \check{y}_l)^2$$ is an unbiased estimator of $\var(\hat{t}_{\pi})$. Also, an analogous derivation as (ii) shows $$ \widehat{\var}(\hat{t}_{\pi}) = N^2\frac{1-f}{n}S_{ys}^2$$ which concludes the proof.
+\newpage
+
+## Problem 2
+
+Two strategies, (BE, $\hat{t}_{\pi}$) and (PO, $\hat{t}_{\pi}$) are considered for estimating the total of the variable *IMP*(= y) for the CO124 population (N = 124). The first strategy calls for the BE sampling with expected size $n=20$. The second strategy calls for the PO sampling with expected size $n=20$ as follows: the seven largest countries are selected with $\pi_k = 1$, whereas all other countries are selected with $\pi_k$ proportional to the value of the variable *MEX*(=x), that is,
+
+$$\pi_k = \left\{\begin{array}{cc}
+1 & \text{if} \ k \in U_{large} \\
+\frac{13x_k}{\sum_{U_{small}} x_k} & \text{if} \ k \in U_{small}
+\end{array}\right. \quad k \in \{1,2,\ldots,N\},$$ where $U_{large}$ consists of the seven largest countries, $U_{small} = U - U_{large}$, and $\sum_{U_{small}} x_k = 132,725$. Compute the ratio $V_{BE}(\hat{t}_{\pi})/V_{PO}(\hat{t}_{\pi})$ using the following information: $$\sum_{U_{large}} y_k^2 \approx 1.266\cdot 10^{11}, \sum_{U_{small}} y_k^2 \approx 4.26 \cdot 10^{10}, \sum_{U_{small}} y_k^2/\pi_k \approx 1.349\cdot 10^{11}.$$
+
+### Solution
+
+For both strategies, we are going to calculate the variance of $\pi$ estimator and then compute the requested ratio. 
+
+#### BE
+
+Since the expected size is 20 and $$E(n_s) = E\left(\sum_{k \in U} I_k \right) = \sum_{k \in U} \pi = N\pi$$ we conclude that $\pi = \frac{5}{31}.$ Also, given that $(I_k)_{k \in U}$ are independent $$\Delta_{kl} = \left\{\begin{array}{cc} \pi(1-\pi) & \text{if } k = l \\
+0 & \text{otherwise}\end{array}\right.$$ Thus $$\begin{aligned}
+  \var_{BE}(\hat{t}_{\pi}) = \mathop{\sum\sum}_{(k,l) \in U} \Delta_{kl}\check{y}_k\check{y}_l= \sum_{k \in U} \pi(1-\pi)\frac{y_k^2}{\pi^2} = \left(\frac{1-\pi}{\pi}\right)\left[\sum_{k \in U_{large}} y_k^2 + \sum_{k \in U_{small}} y_k^2 \right]
+\end{aligned}$$
+
+```{r, echo = FALSE}
+pi <- 5/31
+y2_large <- 1.266*10^{11}
+y2_small <- 4.26*10^{10}
+y2_small_expanded <- 1.349*10^{11}
+var_BE <-(1-pi)/pi*(y2_large + y2_small)
+var_PO <- y2_small_expanded - y2_small
+ratio_BE_PO <- var_BE/var_PO
+```
+Hence, $$\var_{BE}(\hat{t}_{\pi}) = `r var_BE`$$
+
+#### PO
+
+Like BE case, the random variables $(I_k)_{k \in U}$ are independent. Thus $\Delta_{kl} = 0 \  \text{if }k \neq l.$ Now, if $k \in U_{large}$ then $\pi_k = 1$, whereas $\pi_k = \frac{13x_k}{\sum_{U_{small}} x_k}$ when $k \in U_{small}$. Therefore $$\Delta_{kk} = \left\{\begin{array}{cc}
+\pi_k(1-\pi_k) & \text{if } k \in U_{small} \\
+0 & \text{otherwise}\end{array}\right..$$ Follows that $$\begin{aligned} \vspace{-10ex}\var_{PO}(\hat{t}_{\pi}) &= \sum_{k \in U_{small}} \pi_k(1-\pi_k) \frac{y_k^2}{\pi_k^2}\\
+                    &= \sum_{k \in U_{small}}\frac{y_k^2}{\pi_k} - \sum_{k \in U_{small}} y_k^2 \\
+                    &= `r var_PO`
+\end{aligned}$$
+
+Finally, $$\frac{\var_{BE}(\hat{t}_{\pi})}{\var_{PO}(\hat{t}_{\pi})} = `r ratio_BE_PO`.$$ This result indicates that PO sampling gives a better $\pi$-estimator than BE sampling when the expected sample size is 20.
+
+\newpage
+## Problem 3
+
+The Brewer's scheme is explained in Section 3.6. Essentially, this is an algorithm to draw a sample of size 2 with probability proportional to size. Assuming the size variable is $x$, the algorithm goes as follows:
+
+1. In the first draw, select element $k$ with probability: $$p_k = \frac{c_k}{\sum_U c_k},$$ where $c_k = \frac{x_k(T_N - x_k)}{T_N(T_N - 2x_k)}$, and $T_N = \sum_U x_k$.
+
+2. Given that $k$ was first selected, draw a second element $l$ from the remaining elements with probability: $$p_{l|k} = \frac{x_l}{T_N - x_k}.$$
+
+As measured by the 1975 population, the four largest municipalities in the MU284 population are those with the labels 16, 137, 114 and 29. To estimate the total of the variable P85 for this population of size four, a $\pi_{ps}$ sample of size $n=2$ was drawn using the Brewer's scheme, with P75 as the known size variable. The results are as follows:
+
+\begin{table}[H]
+\centering
+  \begin{tabular}{ccc}
+  \hline
+  $k$ & $y_k$ & $x_k$ \\ \hline
+  16 & 653 & 671 \\
+  114 & 229 & 247\\ 
+  \hline
+  \end{tabular}
+\end{table}
+
+(a) Compute an unbiased estimate of the total of P85(see part (d) for inclusion probabilities). (Note: $x_{16} = 671, x_{137} = 446, x_{114} = 247, x_{29} = 138$).
+
+(b) Compute an unbiased estimate of the variance. Also, compute the associated $cve$, that is, the estimated coefficient of variation.
+
+(c) Determine $\pi_{671}$ and $\pi_{16, 114}$ strictly using the above definitions $p_k$ and $p_{l | k}$.
+
+(d) **(Extra Credits: 10 points)** Show that the first- and second-order inclusion probabilities $\pi_k$ and $\pi_{kl}$ are given by: $$\pi_k = \frac{2x_k}{T_N}, \quad \pi_{kl} = \frac{2x_kx_l}{T_N\sum_U c_k} \frac{T_N - x_k - x_l}{(T_N - 2x_k)(T_N - 2x_l)}$$
+
+### Solution
+(a) Given that $\pi_{kl} > 0$ for all $k \neq l$ (part (d)), we have
+ $$\hat{t}_{\pi} = \sum_{s \ni k} \check{y_k}, \quad \widehat{\var}(\hat{t}_{\pi}) = -\frac{1}{2}\mathop{\sum\sum}_{s \ni (k,l)} \check{\Delta}_{kl}(\check{y}_k - \check{y}_l)$$ are unbiased estimation of $\sum_{k \in U} y_k$ and $\var(\hat{t}_\pi)$ respectively.
+    
+    ```{r}
+# Values #
+x <- c(671, 446, 247, 138)
+y <- c(653,229)
+
+# Computing inclusion probabilities
+T_N <- sum(x)
+pi_k <- 2*x/T_N
+c_k <- x*(T_N - x)/(T_N*(T_N - 2*x))
+pi_kl <- function(x,k,l){
+  aux1 <- 2*x[k]*x[l]*(T_N - x[k] - x[l])
+  aux2 <- T_N*sum(c_k)*(T_N - 2*x[k])*(T_N - 2*x[l])
+  return(aux1/aux2)
+}
+pi_13 <- pi_kl(x,1,3)
+    ```
+    
+    Now, in the problem $s =\{1,3\}$ and (using (d)) \renewcommand{\arraystretch}{0.5}
+
+    ```{r, echo = FALSE}
+    
+tibble('$T_N$' = T_N, '$\\pi_1$' =  pi_k[1], '$\\pi_3$' =  pi_k[3], '$\\pi_{13}$' = pi_13) %>%
+  kable(format = "latex",escape = F, booktabs = T, align = "c") %>% 
+  kable_styling(position = "center")
+    ```
+    
+    ```{r}
+# Total Estimation #
+t_pi <- y[1]/pi_k[1] + y[2]/pi_k[2]
+
+# Unbiased variance estimation #
+var_t_pi <- -(pi_13 - pi_k[1]*pi_k[3])*(y[1]/pi_k[1] - y[2]/pi_k[2])^2
+
+```
+
+    Therefore the requested values in (a) and (b) are
+    ```{r, echo = FALSE}
+resumen <- tibble::tibble("$\\hat{t}_{\\pi}$" = t_pi, '$\\widehat{\\var}(\\hat{t}_{\\pi})$' = var_t_pi)
+kable(resumen,format = "latex",escape = F, booktabs = T, caption = , align = "c") %>% 
+  kable_styling(position = "center", latex_options = c("hold_position"))
+    ```
+
+(b) See the above answer.
+
+(c)
+
+\newpage
+## Problem 4
+
+(a) Compute the variance of the $\pi$ estimator for the total of the variable **P83**($= y$) for the CO124 population for the following STSI design with two strata: stratum 1 consists of the 105 smallest countries as measured by the value of **P80**, and stratum 2 consists of the largest 19 countries. For stratum 1, an SI sample of size 11 is to be drawn, whereas every country in stratum 2 is to be surveyed(take-all stratum). Use the following data:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccc}
+  \hline Stratum $h$ & $\sum_{U_h} y_k$ & $\sum_{U_h} y_k^2$ \\
+  \hline 1 & 1098,9 & 21855,05 \\
+  2 & 3445,9 & 1822736,83 \\
+  \hline
+\end{tabular}
+\end{table}
+
+(b) If SI sampling and the $\pi$ estimator $N \bar{y}_s$ were used instead, what sample size would be required to achieve the same variance as the one obtained in $(a)$?.
+
+### Solution
+
+(a) Let $H$ the number of strates in a population $U$. Then, in STSI sampling, the $\pi$ estimator$$\hat{t}_{\pi} = \sum_{h =1}^H \hat{t}_{\pi h} = \sum_{h=1}^H N_h\bar{y}_{s_h}$$ have variance $${\var}(\hat{t}_{\pi}) = \sum_{h = 1}^H N_h^2 \frac{1 - f_h}{n_h} S_{yU_h}^2$$ with $$S_{ys_h}^2 = \frac{1}{n_h-1} \sum_{U_h \ni k}(y_k - \bar{y}_{U_h})^2 = \frac{1}{n_h - 1}\left[\sum_{U_h \ni k} y_k^2 - n_h\bar{y}_{U_h}^2\right].$$ Since stratum 2 is all surveyed, $1-f_2 = 0$ and therefore 
+  
+    ```{r}
+N_1 <- 105
+n_1 <- 11
+N_2 <- 19
+n_2 <- 19
+s_1 <- 1098.9
+s_2 <- 3445.9
+s2_1 <- 21855.05
+s2_2 <- 1822736.83
+S_1 <- 1/(N_1- 1)*(s2_1 - s_1^2/N_1)
+S_2 <- 1/(n_2 - 1)*(s2_2 - n_2*(s_2/n_2)^2)
+var_pi_STSI <- N_1^2*(1-n_1/N_1)*S_1/n_1
+
+    ```
+      
+      $$\var(\hat{t}_{\pi}) = N_1^2\frac{1-f_1}{n_1}S_{yU_1}^2 = `r var_pi_STSI`$$
+
+(b) Let $N = 124$, $n$ the sample size such that the variance of SI-$\pi$ estimator is equal to `r var_pi_STSI`. Therefore $$N^2\frac{1-f}{n}S_{yU}^2 = N_1^2\frac{1-f_1}{n_1}S_{yU_1}^2.$$ Given that $f = \frac{n}{N}$, an easy algebraic manipulation gives the quadratic equation $$Kn^2 - (1-K)n - 124 = 0$$ where $K = \frac{`r var_pi_STSI`}{S_{yU}^2}$.
+\vspace{2ex}
+
+    ```{r, warning = FALSE}
+# Computing K
+N <- N_1 + N_2
+S <- s_1 + s_2
+S2 <- s2_1 + s2_2
+c <- S2 - S^2/N
+c2 <- var_pi_STSI/c
+
+# Solving quadratic equation
+n <- as.numeric(polyroot(c(-124,c2-1, c2))[1])
+```
+
+    Follows that $n = `r round(n)`$ is the desired value.
+
+\newpage
+## Problem 5
+
+Compare proportional allocation STSI sampling with SI sampling. Verify the following equation:
+$$V_{SI}(N\bar{y}_s) - V_{STSI,p}\left(\sum_{h=1}^H N_h \bar{y}_{s_h}\right) = \frac{N^3}{N-1}\left(\frac{1}{n} - \frac{1}{N}\right)\left[\sum_{h=1}^H W_h(\bar{y}_{U_h} - \bar{y}_{U})^2 - \frac{1}{N} \sum_{h=1}^H (1-W_h)S_{yU_h}^2\right],$$ for the difference between the variance obtained under the two designs, where $W_h = N_h/N$. Based on this results, explain under which circumstances the $\hat{t}_{\pi}$ estimator under the SI design might be more efficient than under the proportional allocation STSI sampling. Discuss which is more likely to be the most efficient one. 
+
+**Note:** STSI with proportional allocation, (STSI,$P$), simply means that the sample size for each stratum($n_h$) is such that: $n_h = n\frac{N_h}{N}.$
+
+### Solution
+
+Since $n_h = n_h = n\frac{N_h}{N}$ we have $$\begin{aligned}
+  \frac{1-f_h}{n_h} &= \frac{1}{n_h} - \frac{1}{N_h} = \frac{N - n}{nN_h}. \quad (1)
+\end{aligned}$$ Also, by classes we know $$\var_{SI}(\hat{t}_{\pi}) = \frac{N^2}{N-1}\left(\frac{1-f}{n}\right)\sum_{k\in U} (y_k - \bar{y}_U)^2, \quad \var_{STSI,p}(\hat{t}_{\pi}) = \sum_{h=1}^H N_h^2\left(\frac{1-f_h}{n_h}\right)S_{yU_h}^2.$$ Therefore $$\begin{aligned}
+V_{SI}(N\bar{y}_s) - V_{STSI,p}\left(\sum_{h=1}^H N_h \bar{y}_{s_h}\right) &= \frac{N^2}{N-1}\left(\frac{1}{n} - \frac{1}{N}\right)\sum_{k \in U} (y_k - y_U)^2 - \sum_{h=1}^H N_h\left(\frac{N - n}{n}\right)S_{yU_h}^2 \\
+    &= \frac{N^3}{N-1}\left(\frac{1}{n} - \frac{1}{N}\right)\left[ \sum_{k \in U} \frac{y_k^2}{N} - \bar{y}_U^2 - \frac{N-1}{N} \sum_{h=1}^H W_hS_{yU_h}^2 \right] \\ 
+   &= \frac{N^3}{N-1}\left(\frac{1}{n} - \frac{1}{N}\right)\left[\frac{1}{N}\left(\sum_{k \in U}y_k^2 - N\bar{y}_U^2\right) - \sum_{h=1}^H W_hS_{yU_h}^2 + \frac{1}{N}\sum_{h=1}^H W_hS_{yU_h}^2\right]
+   \end{aligned}$$
+
+In the other hand, $$\begin{aligned}
+\sum_{h = 1}^H N_h(\bar{y}_{U_h} - \bar{y}_U)^2 + \sum_{h=1}^H (N_h - 1)S_{yU_h}^2 &= \sum_{h=1}^H N_h\bar{y}_{U_h}^2 - N\bar{y}_{U}^2 + \sum_{h=1}^H \sum_{k \in U_h} (y_k - y_{U_h})^2 \\
+                  &= \sum_{h=1}^H N_h\bar{y}_{U_h}^2 - N\bar{y}_{U}^2 + \sum_{h=1}^H \left[\sum_{k \in U_h}\ y_k^2 - N_h\bar{y}_{U_h}^2 \right] \\
+                  &= \sum_{h=1}^H N_h\bar{y}_{U_h}^2 - N\bar{y}_{U}^2 + \sum_{k \in U} y_k^2 - \sum_{h=1}^H N_h\bar{y}_{U_h}^2 \\
+                  &= \sum_{k \in U} y_k^2 - N\bar{y}_{U}^2
+\end{aligned}$$ Then $$\begin{aligned}
+V_{SI}(N\bar{y}_s) - V_{STSI,p}\left(\sum_{h=1}^H N_h \bar{y}_{s_h}\right) &= \frac{N^3}{N-1}\left(\frac{1}{n} - \frac{1}{N}\right)\left[\frac{1}{N}\left\{\sum_{h=1}^H N_h(\bar{y}_{U_h} - \bar{y}_{U})^2 + \sum_{h=1}^H (N_h - 1)S^2_{YU_h}\right\} \right. \\
+                              &  \quad \ \ \quad \ - \left. \sum_{h=1}^H W_hS_{yU_h}^2 + \frac{1}{N}\sum_{h=1}^H W_hS_{yU_h}^2\right] \\
+                              &= \frac{N^3}{N-1}\left(\frac{1}{n} - \frac{1}{N}\right) \left[\sum_{h=1}^H W_h(\bar{y}_{U_h} - \bar{y}_{U})^2 + \sum_{h=1}^H W_hS_{yU_h}^2 - \frac{1}{N}\sum_{h=1}^H S_{yU_h}^2 \right. \\
+                              & \quad \ \ \quad \ - \left. \sum_{h=1}^H W_hS_{yU_h}^2 + \frac{1}{N}\sum_{h=1}^H W_hS_{yU_h}^2 \right] \\
+                              &= \frac{N^3}{N-1}\left(\frac{1}{n} - \frac{1}{N}\right)\left[\sum_{h=1}^H W_h(\bar{y}_{U_h} - \bar{y}_{U})^2 - \frac{1}{N} \sum_{h=1}^H (1-W_h)S_{yU_h}^2\right]
+\end{aligned}$$ which concludes the proof.
+
+\newpage
+## Problem 6
+
+Let us define the employment rate in the Swedish labor force as the proportion of individuals of age 20 to 64 years who work at least 20 hours per week.  To estimate this employment rate, a sample survey was carried out with the following two-stage design: 
+
+(1) The 284 Swedish municipalities were size-ordered according to the number of persons in the 20 to 64 age group. The total of that variable is  4,804,685. The  municipalities  were  then divided  into  four  strata  of  equal  sizes,  so  that  stratum  1 contained the 71 first (smallest) municipalities, stratum 2 the next 71 municipalities, and so one. From each stratum, an SI sample of the three municipalities was drawn. 
+
+(2) From each of the selected municipalities, an SI sample of 100 individuals from the age group 20 to 64 years was drawn. For every sampled individuals, information on employment status was obtained. The results were as follows:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ccc}
+\hline Stratum & No. individuals in  & No. employed in the \\ 
+ & selected municipality & sample from the municipality \\
+\hline  & 2927 & 72 \\
+       1  & 5436 & 72 \\
+         & 5010 & 74 \\
+\hline  & 8731 & 75 \\
+       2  & 5749 & 68 \\
+         & 6703 & 73 \\
+\hline  & 10823 & 75 \\
+       3  & 14763 & 70 \\
+         & 9446 & 72 \\
+\hline  & 18511 & 74 \\
+       4  & 26687 & 74 \\
+         & 67144 & 75 \\
+\hline
+\end{tabular}
+\end{table}
+
+(a) Estimate the employment rate (in %) in the country using the $\pi$ estimaton.
+
+(b) Calculate an unbiased variance estimate, as well as the corresponding $cve$.
+
+(c) The design is not very efficient. Why? Propose a better design for the $\pi$ estimation, using the same number of municipalities for the first stage sampling.
+
+
+\newpage
+
+# Appendix
+
+## Lemma 1
+Let $\mathcal{L}$ the set of posibles samples from a population of size $N$, $p(\cdot)$ a sampling desing, $S \in \mathcal{L}$. Define $$I_k(S) = \left\{\begin{array}{cc}
+1 & k \in S \\
+0 & k \notin S \end{array}\right. \quad k \in 1,\ldots, N. $$ Then, the following proporties hold:
+
+(i) $E(I_k) = \pi_k, \quad \var(I_k) = \pi_k(1-\pi_k), \quad \cov(I_k,I_l) = \pi_{kl} - \pi_k\pi_l$.
+
+(ii) Let $n_s = \sum_{k \in U} I_k$. Then, $$E(n_s) = \sum_{k \in U}\pi_k, \quad \var(n_s) = \sum_{k \in U} \pi_k - \left(\sum_{k \in U} \pi_k\right)^2 + \mathop{\sum\sum}_{k \neq l \in U} \pi_{kl}.$$
+
+### Proof
+
+(i) Notice that $I_k(S)$ is a Bernoulli random variable with $$p = P(I_k = 1) = \pi_k.$$ Thus $$E(I_k) = \pi_k,\quad \var(I_k) = \pi_k(1-\pi_k)$$ due to the well-know Bernoulli distribution properties. Also, $I_kI_l = 1$ if and only if $k$ and $l$ are in the sample $s$. So $$E(I_kI_l) = P(I_kI_l = 1) = \pi_{kl}$$ which implies that $$\cov(I_k,I_l) = \pi_{kl} - \pi_k\pi_l.$$
+
+(ii) For (i) $E(n_s) = \sum_{k \in U} \pi_k$. Now, by the variance formula of the sum of dependent random variables we have 
+  $$\begin{aligned}
+    \var(n_s) &= \sum_{k \in U} \var(I_k) + \mathop{\sum\sum}_{l \neq k \in U} \cov(I_k,I_l) \\
+              &= \sum_{k \in U} \pi_k(1-\pi_k) + \mathop{\sum\sum}_{l \neq k \in U} (\pi_{kl} - \pi_k\pi_l) \\
+              &= \sum_{k \in U} \pi_k - \left(\sum_{k \in U} \pi_k\right)^2 + \mathop{\sum\sum}_{k \neq l \in U} \pi_{kl}
+  \end{aligned}$$
+
+## Lemma 2
+Let $\mathcal{L}$ the set of posibles samples from a population of size $N$, $p(\cdot)$ a sampling desing, $S \in \mathcal{L}$. If the sampling design $p(\cdot)$ has a fixed size $n$, then the following properties hold:
+
+(i) $\displaystyle{\sum_{k\in U} \pi_k = n, \quad \mathop{\sum\sum}_{k\neq l \in U} \pi_{kl} = n(n-1), \quad \sum_{\substack{l\in U \\ l \neq k}} \pi_{kl} = (n-1)\pi_k}$.
+
+(ii) The variance of the $\pi$ estimator can be written alternatively as $$\var(\hat{t}_{\pi}) = -\frac{1}{2}\sum_{(k,l) \in U} \Delta_{kl}(\check{y}_k - \check{y}_l)^2.$$
+
+(iii) Provided that $\pi_{kl} > 0$ for all $k,l \in U$, an unbiased estimator of $\var(\hat{t}_{\pi})$ is given by $$\widehat{\var}(\hat{t}_{\pi}) = -\frac{1}{2}\sum_{(k,l) \in U} \check{\Delta}_{kl}(\check{y}_k - \check{y}_l)^2$$
+
+### Proof
+
+(i) If $p(\cdot)$ is of fixed size $n$, then $n_s = n$ with probability one and $$E(n_s) = n, \quad \var(n_s) = 0.$$ Using the point (ii) of Lemma 2 follows $$\sum_{k \in U} \pi_k = n, \quad \mathop{\sum\sum}_{k \neq l \in U} \pi_{kl} = n(n-1).$$ The third result follows from the derivation $$\begin{aligned}
+\sum_{\substack{ l \in U \\ l \neq k}} \pi_{kl} &= E\left[I_k \left(\sum_{l \in U}I_l - I_k\right)\right] \\
+                                                &= E[I_k(n - I_k)] \\
+                                                &= n\pi_k - E(I_k^2) \\
+                                                &= \pi_k(n-1)
+\end{aligned}$$
+
+(ii) In class we prove that $$\var(\hat{t}_{\pi}) = \sum_{(k,l) \in U} \Delta_{kl}\check{y}_k\check{y}_l.$$ In the other hand, developing the square and summing we have
+  $$ -\frac{1}{2}\mathop{\sum\sum}_{(k,l) \in U} \Delta_{kl}(\check{y}_k - \check{y}_l)^2 = \mathop{\sum\sum}_{(k,l) \in U}\Delta_{kl}\check{y}_k\check{y}_l - \mathop{\sum\sum}_{(k,l) \in U} \Delta_{kl}\check{y}_k^2.$$ Now, using (i) for every fixed $k$ $$\begin{aligned}
+  \sum_{l \in U} \Delta_{kl} &= \sum_{l\in U} \pi_{kl} - \pi_k\sum_{l \in U} \pi_l \\
+                             &= \sum_{\substack{l \in U \\ l \neq k}} \pi_{kl} + \pi_k - \pi_kn \quad (\pi_{kk} = \pi_k) \\
+                             &= \pi_k(n-1) + \pi_k - \pi_kn \\
+                             &= 0
+  \end{aligned}$$
+  Thus, the proof concludes noting that $$\mathop{\sum\sum}_{(k,l) \in U}\Delta_{kl}\check{y}_k^2 = \sum_{k \in U} \check{y}_k^2\sum_{l \in U} \Delta_{kl}.$$
+
+(iii) A similar derivation as (ii) prove that $$\mathop{\sum\sum}_{(k,l) \in U} \check{\Delta}_{kl}\check{y}_k\check{y}_l = -\frac{1}{2}\sum_{(k,l) \in U} \check{\Delta_{kl}}(\check{y}_k - \check{y}_l)^2.$$ The unbiased follows (as we saw in class) from $E(\check{\Delta}_{kl}) = \Delta_{kl}.$

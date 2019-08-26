@@ -1,0 +1,24 @@
+---
+output:
+  html_document:
+    theme: paper
+
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+# Introducción a R
+
+- [Intro a R](http://jkunst.com/intro-r-workshop/)
+- [Bienvenida :)](01-bienvenida-r-rstudio.html)
+- [Importación de tablas](02-importacion-de-datos.html)
+- [Manipulación de datos](03-manipulacion-de-datos.html)
+- [Visualización](04-visualizacion-de-datos.html)
+- [Introducción a Estadística](07-intro-estadistica.html)
+- [Un poco de todo](08-un-poco-de-todo.html)

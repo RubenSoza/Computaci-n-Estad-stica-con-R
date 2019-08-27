@@ -6,6 +6,7 @@ output:
     theme: paper
 ---
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r setup, include=FALSE}
 library(highcharter)
@@ -24,3 +25,5 @@ source("setup.R")
 
 - [Clase 1](Clase-1.html)
 - [Clase 2](Clase-2.html)
+- [Clase 3](Clase-3.html)
+- [Clase 4](Clase-4.html)

@@ -284,6 +284,7 @@ server <- function(input, output) {
      plot(x, type = t, col = input$col)
    })
 }
+(ui = ui, server = server)
 ```
 
 ## Funcionamiento de una app de Shiny{ .center .white data-background="#75AADB" }

@@ -60,7 +60,7 @@ Considere la tabla `births` paquete `babynames`.
 
 (b) Utilizando un gráfico adecuado, estudie los nacimientos por años en EE.UU. ¿En qué década se obtuvo la menor cantidad de nacimientos?
 
-```{r, echo = FALSE, include = FALSE}
+```{r}
 library(babynames)
 library(nycflights13)
 library(maps)
@@ -102,7 +102,7 @@ Considere ahora la tabla `babynames` del paquete `babynames`.
 
 (c) Con el data frame obtenido en la parte anterior, genere un gráfico que contenga la información de los nacimientos por año de cada uno de los nombres mencionados y mencionte una hipótesis/suposición al respecto de lo observado. *Hint:* Use `face_wrap(~ name, scales = "free_y")`.
 
-```{r, echo = FALSE, include = FALSE}
+```{r}
 # Parte a #
 data("babynames")
 babynames %>% 
@@ -144,15 +144,15 @@ ggmap
     2. A la izquierda del gráfico anterior se observan 2 puntos. Genere el/los pasos necesarios para seleccionarlos usando la tabla resultante de la pregunta 5 para identificar los nombres de dichos aeropuertos y responda: ¿Donde están? ¿Qué gracias tienen?
 
 
-```{r, echo = FALSE, include = FALSE}
+```{r}
 library(nycflights13)
 data("airports", package = 'nycflights13')
 data("flights", package = 'nycflights13')
 glimpse(airports)
 
 # a)
-airports %>% 
-  inner_join(flights, by = c("faa" = "dest")) %>% 
+flights %>% 
+  left_join(airports, by = c("dest" = "faa")) %>% 
   group_by(name) %>% 
   summarise(nvuelos = n()) %>% 
   left_join(airports, by = "name") %>% 
@@ -167,6 +167,6 @@ ggmap + geom_point(data = airports2, aes(x = lon, y = lat, size = nvuelos, color
 
 # c)
 airports2 %>% 
-  filter(lon < -130)
+  filter(lon < -130) # Hawaii y Alaska :o
 ```
 

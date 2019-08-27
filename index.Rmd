@@ -2,7 +2,8 @@
 title: Computación Estadística con R
 author: false
 output:
-  html_document
+  html_document:
+    theme: lumen
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->

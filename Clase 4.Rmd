@@ -182,7 +182,14 @@ Convertir los títulos de las secciones de estos párrafos en encabezados utiliz
 
 - Quitar los mensajes que genera el cargar la librería en la línea 18
 - Cargar los datos y mostrar las primeras filas de la base de datos (línea 36) sin que me muestre el código ni los mensajes
-- Sabiendo que el código para calcular el número de jugadores y el período que abarcan los datos es length(unique(data$player_id)) y range(data$dt), respectivamente, completar con un código incrustado la línea 44
+- Sabiendo que el código para calcular el número de jugadores y el período que abarcan los datos es 
+```{r, eval = FALSE}
+range(data$dt)
+length(unique(data$player_id))
+```
+
+Completar con un código incrustado la línea 44
+
 
 ## Ejercicios: parte IV
 

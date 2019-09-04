@@ -3236,8 +3236,11 @@ virginica
 <ul>
 <li class="fragment">Quitar los mensajes que genera el cargar la librería en la línea 18</li>
 <li class="fragment">Cargar los datos y mostrar las primeras filas de la base de datos (línea 36) sin que me muestre el código ni los mensajes</li>
-<li class="fragment">Sabiendo que el código para calcular el número de jugadores y el período que abarcan los datos es length(unique(data<span class="math inline"><em>p</em><em>l</em><em>a</em><em>y</em><em>e</em><em>r</em><sub><em>i</em></sub><em>d</em>))<em>y</em><em>r</em><em>a</em><em>n</em><em>g</em><em>e</em>(<em>d</em><em>a</em><em>t</em><em>a</em></span>dt), respectivamente, completar con un código incrustado la línea 44</li>
+<li class="fragment">Sabiendo que el código para calcular el número de jugadores y el período que abarcan los datos es</li>
 </ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">range</span>(data<span class="op">$</span>dt)
+<span class="kw">length</span>(<span class="kw">unique</span>(data<span class="op">$</span>player_id))</code></pre></div>
+<p>Completar con un código incrustado la línea 44</p>
 </section><section id="ejercicios-parte-iv" class="slide level2">
 <h2>Ejercicios: parte IV</h2>
 <ul>
@@ -3318,7 +3321,8 @@ server &lt;-<span class="st"> </span><span class="cf">function</span>(input, out
      t &lt;-<span class="st"> </span><span class="kw">ifelse</span>(input<span class="op">$</span>punto, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;l&quot;</span>)
      <span class="kw">plot</span>(x, <span class="dt">type =</span> t, <span class="dt">col =</span> input<span class="op">$</span>col)
    })
-}</code></pre></div>
+}
+(<span class="dt">ui =</span> ui, <span class="dt">server =</span> server)</code></pre></div>
 </section><section id="funcionamiento-de-una-app-de-shiny" class="slide level2 center white" data-background="#75AADB">
 <h2>Funcionamiento de una app de Shiny</h2>
 </section><section id="app" class="slide level2">

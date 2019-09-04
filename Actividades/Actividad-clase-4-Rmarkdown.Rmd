@@ -32,14 +32,19 @@ En síntesis, hay una fila para cada jugador, día y nivel que registra la canti
 Ahora, carguemos en el conjunto de datos y echemos un vistazo a las primeras filas:
 
 ```{r}
-data <- read_csv("data/candy_crush.csv") 
+data <- read_csv("G:/Mi unidad/Universidad/Cursos/Computación Estadística con R/Datasets/candy_crush.csv")
 
 head(data)
 ```
 
 Chequeando la base de datos
 
-Ahora que ya cargamos los datos, contaremos cuántos jugadores tenemos en la muestra y cuántos días de datos tenemos. El número de jugadores es de  y el período para el que tenemos datos es .
+```{r}
+jug <- unique(length(data$player_id))
+rang <- range(data$dt) 
+```
+
+Ahora que ya cargamos los datos, contaremos cuántos jugadores tenemos en la muestra y cuántos días de datos tenemos. El número de jugadores es de `r jug` y el período para el que tenemos datos es .
 
 Computando el nivel de dificultad
 

@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title></title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="static/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="static/reveal.js-3.3.0.1/css/theme/simple.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="styles.css"/>
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section><section id="computacion-estadistica-con-r-clase-5-ruben-soza" class="titleslide slide level1 center white" data-background="#75AADB"><h1><br><br>Computación Estadística con R<br><small>Clase 5 <br><br> Rubén Soza</small></h1></section></section>
+<section><section id="introduccion-a-shinyr" class="titleslide slide level1 center white" data-background="#75AADB"><h1>Introducción a ShinyR</h1></section><section id="antes-de-partir" class="slide level2">
+<h2>Antes de Partir</h2>
+<p>Necesitaremos algunos paquetes:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(
+  <span class="kw">c</span>(<span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;shiny&quot;</span>, <span class="st">&quot;shinythemes&quot;</span>, <span class="st">&quot;shinyWidgets&quot;</span>,
+    <span class="st">&quot;shinydashboard&quot;</span>, <span class="st">&quot;DT&quot;</span>, <span class="st">&quot;leaflet&quot;</span>, <span class="st">&quot;plotly&quot;</span>)
+  )</code></pre></div>
+</section><section id="que-es-una-applicacion-web" class="slide level2">
+<h2>¿Qué es una <strong>app</strong>(licación) web?</h2>
+<p>(Wikipedia:) Herramientas que los usuarios pueden utilizar accediendo a un servidor web a través de internet o de una intranet mediante un navegador.</p>
+<p><img src="Images/miprimerapp.png" /></p>
+</section><section id="aplicacion-web" class="slide level2">
+<h2>Aplicación Web</h2>
+<p>Las apps poseen <strong>inputs</strong> y <strong>outputs</strong>:</p>
+<p>Veamos el siguiente link: <a href="https://ruben-soza.shinyapps.io/actividades/" class="uri">https://ruben-soza.shinyapps.io/actividades/</a></p>
+</section><section id="la-estructura-de-una-shinyapp" class="slide level2">
+<h2>La estructura de una ShinyApp</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shiny)
+
+ui &lt;-<span class="st"> </span><span class="kw">fluidPage</span>()
+
+server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output) {}
+
+<span class="kw">runApp</span>(<span class="kw">list</span>(<span class="dt">ui =</span> ui, <span class="dt">server =</span> server)) </code></pre></div>
+</section><section id="la-estructura-de-una-shinyapp-1" class="slide level2">
+<h2>La estructura de una ShinyApp</h2>
+<p><img src="Images/shiny2.PNG" /></p>
+<ul>
+<li class="fragment">Se define una interfaz de usuario (user interface). En adelante <code>ui</code></li>
+<li class="fragment">En este caso es una página fluida vacía <code>fluidPage()</code></li>
+<li class="fragment">En el futuro acá definiremos diseño/estructura de nuestra aplicación (<em>layout</em>). Que se refiere la disposición de nuestros <code>inputs</code> y <code>outputs</code></li>
+</ul>
+</section><section id="la-estructura-de-una-shinyapp-2" class="slide level2">
+<h2>La estructura de una ShinyApp</h2>
+<p><img src="Images/shiny3.PNG" /></p>
+<ul>
+<li class="fragment">Se define el <code>server</code> en donde estará toda la lógica de nuestra aplicación.</li>
+<li class="fragment">Principalmente serán instrucciones que dependeran de <code>inputs</code></li>
+</ul>
+</section><section id="la-estructura-de-una-shinyapp-3" class="slide level2">
+<h2>La estructura de una ShinyApp</h2>
+<p><img src="Images/shiny4.PNG" /></p>
+<ul>
+<li class="fragment"><code>runApp</code> es la funcion que crea y deja corriendo la app con los parámetros otorgados.</li>
+<li class="fragment"><strong>No siempre</strong> tendremos que escribirla pues veremos que RStudio al crear una shinyApp nos pondrá un botón para <em>servir</em> la aplicación</li>
+</ul>
+</section><section id="ejercicio" class="slide level2">
+<h2>Ejercicio:</h2>
+<p>Hacer funcionar el código <code>mi_primer_shiny.R</code> en R Rstudio:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ui &lt;-<span class="st"> </span><span class="kw">fluidPage</span>(
+   <span class="kw">sidebarLayout</span>(
+      <span class="kw">sidebarPanel</span>(
+        <span class="kw">sliderInput</span>(<span class="st">&quot;nrand&quot;</span>, <span class="st">&quot;Simulaciones&quot;</span>,
+                    <span class="dt">min =</span> <span class="dv">50</span>, <span class="dt">max =</span> <span class="dv">100</span>, <span class="dt">value =</span> <span class="dv">70</span>),
+        <span class="kw">selectInput</span>(<span class="st">&quot;col&quot;</span>, <span class="st">&quot;Color&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>, <span class="st">&quot;black&quot;</span>)),
+        <span class="kw">checkboxInput</span>(<span class="st">&quot;punto&quot;</span>, <span class="st">&quot;Puntos:&quot;</span>, <span class="dt">value =</span> <span class="ot">FALSE</span>)
+      ),
+      <span class="kw">mainPanel</span>(<span class="kw">plotOutput</span>(<span class="st">&quot;outplot&quot;</span>))
+   )
+)
+
+server &lt;-<span class="st"> </span><span class="cf">function</span>(input, output) {
+   output<span class="op">$</span>outplot &lt;-<span class="st"> </span><span class="kw">renderPlot</span>({
+     <span class="kw">set.seed</span>(<span class="dv">123</span>)
+     x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(input<span class="op">$</span>nrand)
+     t &lt;-<span class="st"> </span><span class="kw">ifelse</span>(input<span class="op">$</span>punto, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;l&quot;</span>)
+     <span class="kw">plot</span>(x, <span class="dt">type =</span> t, <span class="dt">col =</span> input<span class="op">$</span>col)
+   })
+}
+(<span class="dt">ui =</span> ui, <span class="dt">server =</span> server)</code></pre></div>
+</section><section id="funcionamiento-de-una-app-de-shiny" class="slide level2 center white" data-background="#75AADB">
+<h2>Funcionamiento de una app de Shiny</h2>
+</section><section id="app" class="slide level2">
+<h2>App</h2>
+<p><img src="Images/shiny_works/Diapositiva1.PNG" /></p>
+</section><section id="contenedor" class="slide level2">
+<h2>Contenedor</h2>
+<p><img src="Images/shiny_works/Diapositiva2.PNG" /></p>
+</section><section id="otros-contenedores" class="slide level2">
+<h2>Otros contenedores</h2>
+<p><img src="Images/shiny_works/Diapositiva3.PNG" /></p>
+</section><section id="inputs" class="slide level2">
+<h2>Inputs</h2>
+<p><img src="Images/shiny_works/Diapositiva4.PNG" /></p>
+</section><section id="outputs" class="slide level2">
+<h2>Outputs</h2>
+<p><img src="Images/shiny_works/Diapositiva5.PNG" /></p>
+</section><section id="interaccion" class="slide level2">
+<h2>Interacción</h2>
+<p><img src="Images/shiny_works/Diapositiva6.PNG" /></p>
+</section><section id="resultado" class="slide level2">
+<h2>Resultado</h2>
+<p><img src="Images/shiny_works/Diapositiva7.PNG" /></p>
+</section><section id="la-estructura-de-una-shinyapp-2-1" class="slide level2 center white" data-background="#75AADB">
+<h2>La estructura de una ShinyApp 2</h2>
+</section><section id="section" class="slide level2">
+<h2></h2>
+<p><img src="Images/shiny5.PNG" /></p>
+<ul>
+<li class="fragment"><code>fluidPage</code>, <code>sidebarLayout</code>, <code>sidebarPanel</code>, <code>mainPanel</code> definen el diseño/<em>layout</em> de nuestra app</li>
+<li class="fragment">Existen muchas más formas de organizar una app. Más detalles en <a href="http://shiny.rstudio.com/articles/layout-guide.html" class="uri">http://shiny.rstudio.com/articles/layout-guide.html</a></li>
+</ul>
+</section><section class="slide level2">
+
+<p><img src="Images/shiny6.PNG" /></p>
+<ul>
+<li class="fragment"><code>sliderInput</code>, <code>selectInput</code>, <code>checkboxInput</code> son los inputs de nuestra app, con esto el usuario puede interactuar con nuestra aplicación.</li>
+<li class="fragment">Estas funciones generan el input deseado en la app y shiny permite que los valores de estos inputs sean usados como valores usuales en R en la parte del server (numericos, strings, booleanos, fechas).</li>
+</ul>
+</section><section class="slide level2">
+
+<p><img src="Images/shiny7.PNG" /></p>
+<ul>
+<li class="fragment"><code>plotOutput</code> define el lugar donde la salida estará</li>
+<li class="fragment">Como mencionamos, nuestras app pueden tener muchos outputs: tablas, texto, imágenes</li>
+</ul>
+</section><section class="slide level2">
+
+<p><img src="Images/shiny8.PNG" /></p>
+<ul>
+<li class="fragment"><code>renderPlot</code> define un tipo de salida gráfica</li>
+<li class="fragment">Existen otros tipos de salidas, como tablas <code>tableOutput</code> o tablas más interactivas como <code>DT::DTOutput</code></li>
+</ul>
+</section><section class="slide level2">
+
+<p><img src="Images/shiny9.PNG" /></p>
+<ul>
+<li class="fragment">Este espacio determina la lógica de nuestra salida</li>
+<li class="fragment">Acá haremos uso de los inputs para entregar lo que deseamos</li>
+</ul>
+</section><section id="interaccion-entre-inputs-y-outputs" class="slide level2 center white" data-background="#75AADB">
+<h2>Interacción entre Inputs y Outputs</h2>
+</section><section class="slide level2">
+
+<pre class="r hljs remark-code">
+ui <- fluidPage(                                                                                          
+   sidebarLayout(                                                 
+      sidebarPanel(                                               
+        sliderInput("nrand", "Simulaciones",                       
+                    min = 50, max = 100, value = 70),             
+        selectInput("col", "Color", c("red", "blue", "black")),   
+        checkboxInput("punto", "Puntos:", value = FALSE)          
+      ),
+      mainPanel(<b>plotOutput</b>("outplot"))
+   )
+)
+
+server <- function(input, output) {
+   output$outplot <- <b>renderPlot</b>({                               
+     set.seed(123)                                              
+     x <- rnorm(input$nrand)                                    
+     t <- ifelse(input$punto, "b", "l")                         
+     plot(x, type = t, col = input$col)                         
+   })
+}
+</pre>
+<ul>
+<li class="fragment">Las funciones <code>Output()</code> y <code>render()</code> trabajan juntas para agregar salidas de R a la interfaz de usuario</li>
+<li class="fragment">En este caso <code>renderPlot</code> esta asociado con <code>plotOutput</code> (¿cómo?)</li>
+<li class="fragment">Existen más parejas: <code>renderText</code>/<code>textOutput</code> o <code>renderTable</code>/<code>tableOutput</code>.</li>
+</ul>
+</section><section class="slide level2">
+
+<pre class="r hljs remark-code">
+ui <- fluidPage(                                                                                          
+   sidebarLayout(                                                 
+      sidebarPanel(                                               
+        sliderInput("nrand", "Simulaciones",                       
+                    min = 50, max = 100, value = 70),             
+        selectInput("col", "Color", c("red", "blue", "black")),   
+        checkboxInput("punto", "Puntos:", value = FALSE)          
+      ),
+      mainPanel(plotOutput(<b>"outplot"</b>))
+   )
+)
+
+server <- function(input, output) {
+   output$<b>outplot</b> <- renderPlot({                               
+     set.seed(123)                                              
+     x <- rnorm(input$nrand)                                    
+     t <- ifelse(input$punto, "b", "l")                         
+     plot(x, type = t, col = input$col)                         
+   })
+}
+</pre>
+<ul>
+<li class="fragment">Cada <code>Output()</code> y <code>render()</code> se asocian con un <strong>id</strong></li>
+<li class="fragment">Este <strong>id</strong> debe ser único en la applicación</li>
+<li class="fragment">En el ejemplo <code>renderPlot</code> esta asociado con <code>plotOutput</code> vía el <code>outplot</code></li>
+</ul>
+</section><section class="slide level2">
+
+<pre class="r hljs remark-code">
+ui <- fluidPage(                                                                                          
+   sidebarLayout(                                                 
+      sidebarPanel(                                               
+        sliderInput(<b>"nrand"</b>, "Simulaciones",                       
+                    min = 50, max = 100, value = 70),             
+        selectInput("col", "Color", c("red", "blue", "black")),   
+        checkboxInput("punto", "Puntos:", value = FALSE)          
+      ),
+      mainPanel(plotOutput("outplot"))
+   )
+)
+
+server <- function(input, output) {
+   output$outplot <- renderPlot({                               
+     set.seed(123)                                              
+     x <- rnorm(input$<b>nrand</b>)                                    
+     t <- ifelse(input$punto, "b", "l")                         
+     plot(x, type = t, col = input$col)                         
+   })
+}
+</pre>
+<ul>
+<li class="fragment">Cada functión <code>Input</code> requiere un <strong>id</strong> para ser identificado en el server</li>
+<li class="fragment">Cada <code>Input</code> requiere argumentos especificos a cada tipo de input, valor por defecto, etiquetas, opciones, rangos, etc</li>
+</ul>
+</section><section class="slide level2">
+
+<ul>
+<li class="fragment">Acá, el valor númerico ingresado/modificado por el usuario se puede acceder en el server bajo <code>input$nrand</code></li>
+</ul>
+</section><section class="slide level2">
+
+<pre class="r hljs remark-code">
+ui <- fluidPage(                                                                                          
+   sidebarLayout(                                                 
+      sidebarPanel(                                               
+        sliderInput(<b>"nrand"</b>, "Simulaciones",                       
+                    min = 50, max = 100, value = 70),             
+        selectInput(<b>"col"</b>, "Color", c("red", "blue", "black")),   
+        checkboxInput(<b>"punto"</b>, "Puntos:", value = FALSE)          
+      ),
+      mainPanel(plotOutput("outplot"))
+   )
+)
+
+server <- function(input, output) {
+   output$outplot <- renderPlot({                               
+     set.seed(123)                                              
+     x <- rnorm(input$<b>nrand</b>)                                    
+     t <- ifelse(input$<b>punto</b>, "b", "l")                         
+     plot(x, type = t, col = input$<b>col</b>)                         
+   })
+}
+</pre>
+<ul>
+<li class="fragment"><code>sliderInput</code> se usa para seleccionar un valor numérico entre un rango</li>
+<li class="fragment"><code>selectInput</code> otorga la posibildad que el usuario escoge entre un conjunto de valores</li>
+<li class="fragment"><code>checkboxInput</code> en el server es un valor lógico <code>TRUE</code>/<code>FALSE</code></li>
+</ul>
+</section><section class="slide level2">
+
+<ul>
+<li class="fragment">¿Necesitas más? <a href="https://gallery.shinyapps.io/065-update-input-demo/" class="uri">https://gallery.shinyapps.io/065-update-input-demo/</a> y <code>shinyWidgets::shinyWidgetsGallery()</code></li>
+<li class="fragment">Si deseas compartir tu ShinyApp puede ser útil <a href="https://shiny.rstudio.com/tutorial/written-tutorial/lesson7/" class="uri">https://shiny.rstudio.com/tutorial/written-tutorial/lesson7/</a></li>
+</ul>
+</section><section id="ejemplo-analicemos-un-ejemplo-en-shiny" class="slide level2 center white" data-background="#75AADB">
+<h2>Ejemplo: Análicemos un ejemplo en shiny !</h2>
+</section><section id="ejercicio-1" class="slide level2">
+<h2>Ejercicio 1</h2>
+<ul>
+<li class="fragment">Haga click en <em>File</em>, luego <em>New File</em> y <em>Shiny Web App</em>, seleccione el nombre</li>
+<li class="fragment">Ejecutela con <em>Run App</em> e interactúe</li>
+<li class="fragment">Luego modifique y cree una app que contenga:</li>
+<li class="fragment">2 inputs, un <code>sliderInput</code> y un <code>textInput</code></li>
+<li class="fragment">3 output de tipo texto <code>textOutput</code> donde el primer contenga el valor del primer input, el segundo el valor del segundo input, y el tercero la suma de los dos inputs</li>
+</ul>
+</section></section>
+<section><section id="actividad-practica-ii-descargue-el-archivo-desde-la-plataforma" class="titleslide slide level1 center white" data-background="#75AADB"><h1>Actividad Práctica II: Descargue el archivo desde la plataforma !</h1></section></section>
+    </div>
+  </div>
+
+  <script src="static/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="static/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display the page number of the current slide
+        slideNumber: false,
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: false,
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'static/reveal.js-3.3.0.1/plugin/zoom-js/zoom.js', async: true },
+        ]
+      });
+    </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>

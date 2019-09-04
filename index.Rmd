@@ -28,4 +28,3 @@ source("setup.R")
 - [Clase 3](Clase-3.html): Visualización de datos utilizando `ggplot2` y Actividad Práctica I
 - [Clase 4](Clase-4.html): Introducción a `Rmarkdown` y `Shiny`
 - [Clase 5](Clase-5.html): Continuación `Shiny` y Actividad Práctica II
-

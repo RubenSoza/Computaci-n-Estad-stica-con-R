@@ -39,6 +39,7 @@ source("setup.R")
 
 # <br><br>Computación Estadística con R<br><small>Clase 5 <br><br> Rubén Soza</small>{ .center .white data-background="#75AADB" }
 
+
 # Introducción a ShinyR{ .center .white data-background="#75AADB" }
 
 ## Antes de Partir

@@ -1,0 +1,272 @@
+---
+header-includes: 
+  - \usepackage{booktabs}
+  - \AtBeginDocument{\let\maketitle\relax}
+  - \usepackage[utf8]{inputenc}
+  - \usepackage[english]{babel}
+  - \usepackage{float}
+output:
+  pdf_document
+fontsize: 12pt 
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE, 
+  message = FALSE,
+  digits  = 4
+)
+library(tidyverse)
+library(shiny)
+
+```
+
+\newcommand{\iid}{\overset{\mathrm{i.i.d}}{\sim}}
+\newcommand{\dados}{\ | \ }
+\newcommand{\bbeta}{\boldsymbol\beta}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\props}{\ \propto \ }
+\renewcommand{\labelitemi}{$\bullet$}
+\newtheorem{proof}{Solución}
+
+\begin{minipage}{2.5cm}
+			\includegraphics[width=1.8cm]{logouccolor.jpg}
+		\end{minipage}
+\begin{minipage}{13cm}
+	\begin{flushleft}
+   		\raggedright{
+   		  \noindent
+   		 	 {\sc Pontificia Universidad Católica de Chile \\ 
+   			     			Facultad de Matemáticas \\ 
+   			     			Departamento de Estad\'istica \sc
+   			     			}
+    			    	}
+			\end{flushleft}
+		\end{minipage}
+
+\begin{center} \quad \\[0.3cm]
+  {\Large Actividad Práctica II} \\[0.3cm]
+  Rubén Soza \\
+  Computación Estadística con R \\[0.3cm]
+  05 de Septiembre de 2019
+\end{center}
+
+## Instrucciones
+
+Carge la base de datos `PlayStore.xlsx`, junto con `tidyverse` y las librerías necesarias para utilizar `Shiny`. Las soluciones del Problema 1 y 2 debe realizarlas en un `Rmarkdown`, mientras que para el problema 3 debe entregar un script de R que genere la aplicación Shiny deseada.
+
+```{r, echo = TRUE}
+library(tidyverse)
+library(shiny)
+library(readxl)
+library(kableExtra)
+PlayStore <- read_excel(
+  "G:/Mi unidad/Universidad/Cursos/Computación Estadística con R/Datasets/PlayStore.xlsx")
+```
+
+## Problema 1
+
+1) Utilizando la ayuda de `R`, estudie las funciones `as.numeric()` y `str_remove_all()`.
+2) Combine las dos funciones anteriores para transformar la columna `Descargas` en una variable numérica en R.
+3) Usted sabe que las `Ganancias` de una aplicación son calculadas como el número de `Descargas` de dicha aplicación multiplicada por el precio de la misma. Seleccionando solo las variables que son de pago, calcule el promedio de `Ganancias` por `Categoría`.
+
+4) Reporte sus resultados en una tabla y en una oración reporte los valores mínimos y máximos obtenidos junto con sus respectivas aplicaciones.
+
+\newpage
+
+### Solución
+
+1) Basta correr el siguiente código:
+
+    ```{r, eval = FALSE}
+?as.numeric
+?str_remove_all
+```
+
+2) Utilizaremos `str_remove_all()` para remover la "," y el " aprox." de la columna `Descargas`. Luego, la función `as.numeric()` transformara el string resultante en un número. Esto se puede ver a continuación:
+
+    ```{r}
+PlayStore %>% 
+      mutate(Descargas = str_remove_all(Descargas, "[,aprox.]")) %>%
+      mutate(Descargas = as.numeric(Descargas)) -> PlayStore
+```
+
+3) El siguiente código realiza lo pedido:
+
+    ```{r}
+PlayStore %>%
+      filter(Tipo == "Pago") %>%
+      mutate(Ganancias = Descargas*Precio) %>% 
+      group_by(Categoría) %>% 
+      summarise("Ganancia_Promedio" = mean(Ganancias)) -> Tabla_Ganancias
+```
+
+4) La tabla con los resultados totales se muestra a continuación.
+
+    ```{r}
+Tabla_Ganancias %>% 
+      arrange(desc(Ganancia_Promedio)) %>% 
+      kable(align = c("l","c")) %>% 
+      kable_styling(position = "center", full_width = F)
+```
+
+    Además, para obtener el mínimo y el máximo utilizamos los siguientes comandos:
+
+    ```{r}
+Tabla_Ganancias %>% 
+      filter(Ganancia_Promedio == min(Ganancia_Promedio)) -> Minimo
+Tabla_Ganancias %>% 
+      filter(Ganancia_Promedio == max(Ganancia_Promedio)) -> Maximo
+```
+
+    Por ende, la ganancia mínima en promedio es `r Minimo[1,2]` y viene de la categoría `r Minimo[1,1]`. Por otro lado, la ganancia en promedio máxima es `r Maximo[1,2]` y se corresponde con la categoría `r Maximo[1,1]`.
+
+## Problema 2
+
+1) Genere un gráfico boxplot de la `Valoración` para cada `Categoría`. Agregue a su gráfico las siguientes líneas de código. Comente lo obtenido.
+
+    ```{r, eval = FALSE}
+# boxplot +
+      coord_flip() +
+      theme(legend.position = "none")
+```
+
+2) Genere un gráfico de barras que ilustre la `Clasificación` de las aplicaciones. Considere en su solución el siguiente código y comente su utilidad.
+
+    ```{r, eval = FALSE}
+PlayStore %>% 
+  mutate(Clasificación = factor(Clasificación, 
+                                levels = c("Todo público", "Adolescentes",
+                                           "Mayores de 17 años","Mayores de 10 años",
+                                           "Sólo adultos", "Sin clasificación")))
+```
+
+3) Genere un indicador de 3 categorías sobre la variable `Comentarios`. Sobre cada indicador, realice un gráfico de dispersión de la `Valoración` vs `Tamaño` que además aporte información del precio de la aplicación.
+
+### Solución
+
+1) A continuación se presenta un código que realiza lo pedido:
+
+    ```{r, warning = FALSE}
+ggplot(data = PlayStore) +
+      geom_boxplot(aes(x = Categoría, y = Valoración, fill = Categoría)) + 
+      coord_flip() + 
+      theme(legend.position = "none")
+```
+
+    Los comandos sugeridos sirven para invertir el gráfico y borrar la leyenda. Esto último es necesario pues la información mostrada por ella es redundante con el gráfico.
+    
+2) En primer lugar, reescribimos nuestra base de datos utilizando el código sugerido:
+
+    ```{r}
+PlayStore %>% 
+  mutate(Clasificación = factor(Clasificación, 
+                  levels = c("Todo público", "Adolescentes",
+                             "Mayores de 17 años","Mayores de 10 años",
+                             "Sólo adultos", "Sin clasificación"))) -> PlayStore
+```
+
+    Luego, generamos el gráfico de barras solicitado:
+    
+    ```{r}
+ggplot(data = PlayStore) +
+      geom_bar(aes(x = Clasificación, fill = Clasificación)) +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+    
+    El código previamente mostrado permite ordenar de mayor a menor las categorías, para así mostrar un gráfico de barras ordenado. Esta forma de presentar el gráfico de barras es considerada la más útil a la hora de transmitir una historia determinada.
+    
+3) En primer lugar, generamos las 3 categorías utilizando la función `case_when()`:
+
+    ```{r}
+PlayStore %>%
+      mutate(Comentarios_cat = case_when(
+        Comentarios <= 100 ~ "Poco Comentado",
+        Comentarios > 100 & Comentarios <= 3500 ~ "Medianamente Comentado",
+        TRUE ~ "Muy Comentados")) -> PlayStore
+```
+
+    Ahora generamos gráficos de `Valoración` vs `Tamaño`:
+
+    ```{r, warning = FALSE}
+ggplot(data = PlayStore) +
+      geom_point(aes(x = Valoración, y = `Tamaño(M)`, 
+                     size = Precio, col = Comentarios_cat)) +
+      theme_minimal() +
+      theme(legend.position = "none") +
+      facet_wrap(vars(Comentarios_cat)) 
+```
+
+
+## Problema 3
+
+Genere una aplicación en `Shiny` que cumpla las siguientes características:
+
+- Permita al usuario seleccionar una `Categoría`, con la cual se reportará una tabla de la base de datos filtrada y un gráfico de dispersión de `Descargas` vs `Precio` considerando solo los elementos de la categoría seleccionada.
+- Permita al usuario modificar el color y tamaño de los puntos.
+- Permita al usuario modificar el título del gráfico.
+
+Para lo anterior, puede ser útil el siguiente código:
+```{r, eval = FALSE}
+library(plotly)
+library(shiny)
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(inputId = "categoría", label = "Seleccione la categoría", 
+                choices = c("ARTE Y DISEÑO", "BELLEZA", "CASA Y HOGAR",
+                           "CLIMA", "COMIDA Y BEBIDA", "COMPRAS",
+                           "COMUNICACIÓN", "DATOS", "DEPORTES",
+                           "EDUCACIÓN", "ENTRETENIMIENTO", "ESTILO DE VIDA",
+                           "EVENTOS", "FAMILIA", "FINANCIERAS",     
+                           "FOTOGRAFÍA", "HERRAMIENTAS", "HISTORIETAS", 
+                           "JUEGO", "LIBRERIAS", "LIBROS Y REFRERENCIAS",
+                           "MAPAS Y NAVEGACIÓN", "MÉDICO", "NEGOCIO", 
+                           "NOTICIAS", "PADRES", "PERSONALIZACIÓN",
+                           "PRODUCTIVIDAD", "REPRODUCTORES DE VIDEO", 
+                           "SALUD Y BELLEZA","SOCIAL", 
+                           "VEHICULOS", "VIAJES", selected = "DEPORTES")
+    ),
+      textInput("_ _ _"),
+      sliderInput("_ _ _"),
+    "_ _ _"Input(inputId = "color", label = "Color de Puntos", 
+                 choices = c("red","blue","green"), 
+                 selected = "red")
+    ),
+    mainPanel( plotlyOutput("dispersion"), dataTableOutput("tabla"))
+  )
+)
+
+server <- function(input,output){
+  
+  # Cargar Base de Datos
+  PlayStore <- read_excel("G:/Mi unidad/Universidad/Cursos/Computación Estadística con R/Datasets/PlayStore.xlsx")
+  
+  # Arreglar Descargas
+  PlayStore %>% 
+    mutate(Descargas = str_remove_all(Descargas, "[,aprox.]")) %>%
+    mutate(Descargas = as.numeric(Descargas)) -> PlayStore
+  
+  output$"_ _ _" <- renderDataTable({
+    PlayStore %>% 
+      filter( Categoría == input$"_ _ _") -> PlayStore_filtrada
+    "_ _ _"
+  })
+  
+  output$dispersión <- renderPlotly({
+    PlayStore %>% 
+      filter( Categoría == input$"_ _ _") -> PlayStore_filtrada
+    g <- ggplot(data = PlayStore_filtrada) + 
+      geom_point(aes(x = Descargas, y = Comentarios), 
+                 size = input$"_ _ _", col = input$"_ _ _") +
+      ggtitle(input$"_ _ _") +
+      theme_light()
+    ggplotly(g)
+    })
+}
+
+shinyApp(ui = ui,server = server)
+```
+
+
+
+

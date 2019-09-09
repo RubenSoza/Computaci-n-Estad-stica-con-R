@@ -97,7 +97,7 @@ PlayStore %>%
 
 Genere una aplicación en `Shiny` que cumpla las siguientes características:
 
-- Permita al usuario seleccionar una `Categoría`, con la cual se reportará una tabla de la base de datos filtrada y un gráfico de dispersión de `Descargas` vs `Precio` considerando solo los elementos de la categoría seleccionada.
+- Permita al usuario seleccionar una `Categoría`, con la cual se reportará una tabla de la base de datos filtrada y un gráfico de dispersión de `Descargas` vs `Comentarios` considerando solo los elementos de la categoría seleccionada.
 - Permita al usuario modificar el color y tamaño de los puntos.
 - Permita al usuario modificar el título del gráfico.
 

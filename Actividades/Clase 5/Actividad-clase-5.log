@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.8.28)  6 SEP 2019 22:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6800 64-bit) (preloaded format=pdflatex 2018.8.28)  6 SEP 2019 22:54
 entering extended mode
 **./Actividad-clase-5.tex
 (Actividad-clase-5.tex
@@ -904,11 +904,11 @@ Package rerunfilecheck Info: File `Actividad-clase-5.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 338.
  ) 
 Here is how much of TeX's memory you used:
- 14845 strings out of 492973
- 214274 string characters out of 3135932
+ 14843 strings out of 492973
+ 214252 string characters out of 3135932
  351218 words of memory out of 3000000
  18426 multiletter control sequences out of 15000+200000
- 33933 words of font info for 53 fonts, out of 3000000 for 9000
+ 33842 words of font info for 52 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  34i,6n,38p,254b,446s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Program Fil
@@ -919,7 +919,7 @@ ram Files/MiKTeX 2.9/fonts/type1/public/lm/lmr17.pfb><C:/Program Files/MiKTeX 2
 .9/fonts/type1/public/lm/lmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
 blic/lm/lmtk10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmtt12.pf
 b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/lm/lmtti10.pfb>
-Output written on Actividad-clase-5.pdf (3 pages, 273665 bytes).
+Output written on Actividad-clase-5.pdf (3 pages, 273628 bytes).
 PDF statistics:
  81 PDF objects out of 1000 (max. 8388607)
  15 named destinations out of 1000 (max. 500000)

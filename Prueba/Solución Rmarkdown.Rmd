@@ -27,11 +27,11 @@ library(kableExtra)
 ```{r, message = FALSE}
 # Cargamos bases de datos #
 
-inventario <- read_delim("G:/Mi unidad/Universidad/Cursos/Computación Estadística con R/Prueba/inventario2.csv", 
+inventario <- read_delim("G:/Mi unidad/Universidad/inventario.csv", 
                          ";", escape_double = FALSE, trim_ws = TRUE)
 
-kardex <- kardex <- read_delim("G:/Mi unidad/Universidad/Cursos/Computación Estadística con R/Prueba/kardex.csv", 
-                               ";", escape_double = FALSE, trim_ws = TRUE)
+kardex <- kardex <- read_delim("G:/Mi unidad/Universidad/Cursos/Computación Estadística con R/Prueba/kardex.csv", ";", 
+                              escape_double = FALSE, trim_ws = TRUE)
 ```
 
 ---
@@ -61,13 +61,20 @@ kardex <- kardex <- read_delim("G:/Mi unidad/Universidad/Cursos/Computación Est
 
 (1) El siguiente código realiza lo pedido
 
-    ```{r}
+```{r message=FALSE, warning=FALSE}
     kardex %>% 
       inner_join(inventario, by = c("cod_producto", "cod_sucursal", "fecha")) -> kardex_ampliada
     datatable(kardex_ampliada, filter = "top", fillContainer = TRUE, style = "bootstrap")
 ```
 
-(2) ...
+(2) El siguiente código realiza lo pedido
+
+    ```{r}
+    inventario %>% 
+      group_by(linea) %>% 
+      tally() %>% 
+      filter(n == min(n) | n == max(n)) -> lineas_summary
+```
 
 (3)  El siguiente código nos da el resultado:
 
@@ -131,7 +138,7 @@ ggplot(data_conteo) +
 
 (2) El siguiente código realiza lo pedido:
 
-    ```{r}
+```{r warning=FALSE}
     inventario %>% 
       ggplot() +
       geom_point(aes(x = costo_on_hand_disponible, y = costo_vigente_on_hand, 

@@ -105,7 +105,7 @@ PlayStore %>%
     ```{r}
 Tabla_Ganancias %>% 
       arrange(desc(Ganancia_Promedio)) %>% 
-      kable(align = c("l","c")) %>% 
+      kable(align = "l") %>% 
       kable_styling(position = "center", full_width = F)
 ```
 
@@ -116,6 +116,7 @@ Tabla_Ganancias %>%
       filter(Ganancia_Promedio == min(Ganancia_Promedio)) -> Minimo
 Tabla_Ganancias %>% 
       filter(Ganancia_Promedio == max(Ganancia_Promedio)) -> Maximo
+Minimo
 ```
 
     Por ende, la ganancia mínima en promedio es `r Minimo[1,2]` y viene de la categoría `r Minimo[1,1]`. Por otro lado, la ganancia en promedio máxima es `r Maximo[1,2]` y se corresponde con la categoría `r Maximo[1,1]`.
@@ -125,6 +126,7 @@ Tabla_Ganancias %>%
 1) Genere un gráfico boxplot de la `Valoración` para cada `Categoría`. Agregue a su gráfico las siguientes líneas de código. Comente lo obtenido.
 
     ```{r, eval = FALSE}
+?geom_boxplot
 # boxplot +
       coord_flip() +
       theme(legend.position = "none")
@@ -169,7 +171,7 @@ PlayStore %>%
     
     ```{r}
 ggplot(data = PlayStore) +
-      geom_bar(aes(x = Clasificación, fill = Clasificación)) +
+      geom_bar(aes(x = Clasificación, fill = Clasificación))  +
       theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
     

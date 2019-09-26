@@ -1,0 +1,140 @@
+---
+title: "Examen Computación Estadística con R"
+author: "Ingrese aquí el nombre de los integrantes del grupo"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: united
+    highlight: tango
+---
+
+<img src="logouccolor.jpg" style="position:absolute;top:0px;right:0px;" width="80" />
+
+---
+
+# Instrucciones
+
+Cargue las bases de datos `kardex.csv` y `inventario.csv` junto con las librerías `tidyverse`, `DT`, `kableExtra`. A continuación responda los problemas 1 y 2 generando un reporte en Rmarkdown adecuado.
+
+```{r, message = FALSE}
+# Cargamos librerías #
+library(tidyverse)
+library(DT)
+library(kableExtra)
+```
+
+```{r, message = FALSE}
+# Cargamos bases de datos #
+
+inventario <- read_delim("G:/Mi unidad/Universidad/Cursos/Computación Estadística con R/Prueba/inventario2.csv", 
+                         ";", escape_double = FALSE, trim_ws = TRUE)
+
+kardex <- kardex <- read_delim("G:/Mi unidad/Universidad/Cursos/Computación Estadística con R/Prueba/kardex.csv", 
+                               ";", escape_double = FALSE, trim_ws = TRUE)
+```
+
+---
+
+# Problema 1
+
+(1) Genere una nueva base de datos, con nombre `kardex_ampliada`, utilizando como links las columnas `cod_prod`, `cod_sucursal` y `fecha`. Además, muestre una visualización de la base de datos resultante utilizando `datatable()`.
+
+(2) Estudie la función `tally()`y utilícela para reportar un párrafo con las `linea` con más y menos elementos. Agregue, además, dos imágenes que contengan un producto de cada línea encontrada antes.
+
+(3) La sucursal de Parque Arauco requiere que usted le entregue una tabla que contenga la siguiente información:  
+    
+    - La variable `depto` de la base de datos generada en (1).
+    
+    - $Q_{kardex}$: El número de productos del departamento tales que la diferencia entre `disponible` y `unidad_on_hand_disponible` es igual a 0.
+    
+    - $Q_{depto}$ corresponde al número de productos del departamento.
+    
+    - Un indicador de quiebre de productos para cada departamento. Este indicador esta definido como $$K_{depto} = 100\cdot\frac{Q_{kardex}}{Q_{depto}}.$$ 
+
+    Muestre una visualización de la base de datos resultante utilizando `kable()` y comente lo que observa.
+
+**Hint:** Genere una variable binaria que determine que productos cumplen con la condición de $Q_{kardex}$. 
+
+
+## Solución
+
+(1) El siguiente código realiza lo pedido
+
+    ```{r}
+    kardex %>% 
+      inner_join(inventario, by = c("cod_producto", "cod_sucursal", "fecha")) -> kardex_ampliada
+    datatable(kardex_ampliada, filter = "top", fillContainer = TRUE, style = "bootstrap")
+```
+
+(2) ...
+
+(3)  El siguiente código nos da el resultado:
+
+```{r}
+kardex_ampliada %>% 
+  filter(sucursal == "Parque Arauco") %>% 
+  mutate(filtro = case_when(
+    disponible == unidad_on_hand_disponible ~ 1,
+    TRUE ~ 0)) %>% 
+  group_by(depto) %>% 
+  summarise(Qdepto = n(), Qkardex = sum(filtro)) %>% 
+  mutate(Kdepto = Qkardex/Qdepto) -> Depto_quiebres
+
+Depto_quiebres %>% 
+  kable() %>% 
+  kable_styling("striped")
+```
+
+---
+
+# Problema 2
+
+(1) Uno de los objetivos planteados por su jefe, a la hora de su contratación, es garantizar que en cada sucursal la cantidad de productos proporcionados por las dos mayores `procedencia` sea similar. Por ejemplo, "NAC" debería tener la misma cantidad de productos en cada sucursal. Genere un gráfico de barras para conocer la situación actual de esta problemática. Para esto:
+
+    - Identifique las dos procedencias más frecuentes.
+    - Genere un dataset que contenga solo las variables de estas dos procedencias.
+    - A partir del dataset anterior, genere otro que cuente, en cada sucursal, la cantidad de productos de cada una de las dos procedencias.
+    - Considere el siguiente código:
+
+    ```{r, eval = FALSE}
+ggplot(data_conteo) +
+  geom_bar(aes("...", fill = sucursal), stat= "identity", 
+           position=position_dodge2()) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+    Comente la utilidad del código y de la función `position_dodge2()`. Indique que solución le plantearía a su jefe.
+
+
+(2) Para cada sucursal genere un gráfico de `costo_on_hand_disponible` vs `costo_on_hand_vigente`. Además, cada punto debe reflejar la cantidad de `unidad_on_hand`.
+
+## Solución
+
+(1) El siguiente código realiza lo pedido: 
+
+    ```{r}
+    library(tidyverse)
+
+    inventario %>% 
+      filter(procedencia %in% c("NAC", "IMP")) %>%
+      group_by(procedencia,sucursal) %>% 
+      tally() -> procedencia_n
+    
+    procedencia_n %>% 
+    ggplot() +
+      geom_bar(aes(x = procedencia, y = n, fill = sucursal), stat= "identity", 
+           position=position_dodge2()) +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+(2) El siguiente código realiza lo pedido:
+
+    ```{r}
+    inventario %>% 
+      ggplot() +
+      geom_point(aes(x = costo_on_hand_disponible, y = costo_vigente_on_hand, 
+                     color = sucursal, size = unidad_on_hand)) + 
+      facet_wrap(vars(sucursal))
+```

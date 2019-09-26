@@ -1,0 +1,83 @@
+---
+header-includes: 
+  - \usepackage{booktabs}
+  - \AtBeginDocument{\let\maketitle\relax}
+  - \usepackage[utf8]{inputenc}
+  - \usepackage[english]{babel}
+  - \usepackage{float}
+  - \usepackage{caption}
+  - \captionsetup[figure]{labelformat=empty}
+output:
+  pdf_document
+fontsize: 12pt 
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE, 
+  message = FALSE,
+  digits  = 4
+)
+library(tidyverse)
+library(shiny)
+
+```
+
+\newcommand{\iid}{\overset{\mathrm{i.i.d}}{\sim}}
+\newcommand{\dados}{\ | \ }
+\newcommand{\bbeta}{\boldsymbol\beta}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\props}{\ \propto \ }
+\renewcommand{\labelitemi}{$\bullet$}
+\newtheorem{proof}{Solución}
+
+\begin{minipage}{2.5cm}
+			\includegraphics[width=1.8cm]{logouccolor.jpg}
+		\end{minipage}
+\begin{minipage}{13cm}
+	\begin{flushleft}
+   		\raggedright{
+   		  \noindent
+   		 	 {\sc Pontificia Universidad Católica de Chile \\ 
+   			     			Facultad de Matemáticas \\ 
+   			     			Departamento de Estad\'istica \sc
+   			     			}
+    			    	}
+			\end{flushleft}
+		\end{minipage}
+
+\begin{center} \quad \\[0.3cm]
+  {\Large Examen Computación Estadística con R} \\[0.3cm]
+  Rubén Soza \\
+  Computación Estadística con R \\[0.3cm]
+  26 de Septiembre de 2019
+\end{center}
+
+## Preeliminares
+
+Para un adecuado funcionamiento del examen, siga los siguientes pasos:
+
+- Descargue desde la plataforma los archivos .zip necesarios para el examen.
+- Ejecute Rstudio y realice la siguiente sequencia: \begin{center}
+File > New Project > New Directory > New Project.\end{center}
+- Asigne un nombre a su proyecto y seleccione una carpeta donde creará su proyecto. Esto generará una nueva carpeta con el nombre de su proyecto.
+- Extraiga todos los archivos descargados en el directorio recién creado.
+
+## Instrucciones
+
+- El examen cuenta de tres problemas, dos en `Rmarkdown` y uno en `Shiny`, cada uno evaluado en forma independiente con escala de 1 a 7.
+- Dispondrá de 4 horas para resolver ambos enunciados.
+- Se puede trabajar en parejas. 
+- Las preguntas, referentes al enunciado, serán realizadas a mano alzada y de forma pública. No se responderán dudas particulares de su código. 
+- Puede utilizar todos los recursos vistos en clases e internet. 
+- La detección de copia será castigada con nota 1 para todos los involucrados.
+
+## Entrega
+
+- Comprima, a excepción de las bases de datos, todos los archivos necesarios para ejecutar sus códigos.
+- Llame a este archivo `Nombre1Apellido1-Nombre2Apellido2.zip`.
+- Enviar dicho archivo a `rsozac@mat.uc.cl` con el asunto `[Examen Ripley]`.
+
+
+# Les deseo mucho éxito a todos !
+
+![](exito.png)
